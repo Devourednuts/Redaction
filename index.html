@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -10,8 +9,8 @@
 :root{
   --bg:#0b0b0d;--panel:#111114;--border:#222228;--border2:#2e2e36;
   --text:#dddde2;--muted:#5a5a66;--muted2:#888896;
-  --doc:#f8f7f4;--doc-text:#1a1a1a;
-  --red:#c0392b;--red-h:#a93226;--accent:#2a6dd9;--green:#1e7e4a;
+  --doc:#f8f7f4;--doc-text:#101010;
+  --red:#c0392b;--red-h:#a93226;--accent:#2a6dd9;
 }
 html,body{height:100%;overflow:hidden;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);
@@ -19,199 +18,188 @@ body{background:var(--bg);color:var(--text);
   display:flex;flex-direction:column;user-select:none;-webkit-user-select:none}
 
 /* ── Topbar ── */
-#topbar{background:var(–panel);border-bottom:1px solid var(–border);
-height:50px;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;
-overflow-x:auto;overflow-y:hidden}
+#topbar{background:var(--panel);border-bottom:1px solid var(--border);
+  height:50px;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;
+  overflow-x:auto;overflow-y:hidden}
 #topbar::-webkit-scrollbar{display:none}
 #logo{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;
-letter-spacing:.18em;color:#fff;text-transform:uppercase;flex-shrink:0}
-#doc-name{flex:1;font-size:12px;color:var(–muted2);overflow:hidden;
-text-overflow:ellipsis;white-space:nowrap;min-width:30px}
-.sep{width:1px;height:20px;background:var(–border2);flex-shrink:0}
+  letter-spacing:.18em;color:#fff;text-transform:uppercase;flex-shrink:0}
+#doc-name{flex:1;font-size:12px;color:var(--muted2);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;min-width:30px}
 
-.btn{background:transparent;border:1px solid var(–border2);color:var(–text);
-font:12px/1 inherit;padding:0 13px;height:32px;border-radius:6px;cursor:pointer;
-display:inline-flex;align-items:center;justify-content:center;gap:5px;
-transition:background .12s,border-color .12s;white-space:nowrap;flex-shrink:0;
--webkit-user-select:none;user-select:none;touch-action:manipulation}
+.btn{background:transparent;border:1px solid var(--border2);color:var(--text);
+  font:12px/1 inherit;padding:0 14px;height:32px;border-radius:6px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .12s,border-color .12s;white-space:nowrap;flex-shrink:0;
+  -webkit-user-select:none;user-select:none;touch-action:manipulation}
 .btn:hover{background:#1d1d24;border-color:#3a3a46}
 .btn:active{background:#222228;transform:scale(.97)}
-.btn-red{background:var(–red);border-color:var(–red);color:#fff;font-weight:600}
-.btn-red:hover{background:var(–red-h);border-color:var(–red-h)}
-.btn-green{background:var(–green);border-color:var(–green);color:#fff;font-weight:600}
-.btn-green:hover{background:#176040;border-color:#176040}
+.btn-red{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.btn-red:hover{background:var(--red-h);border-color:var(--red-h)}
 .btn-red:disabled,.btn:disabled{opacity:.32;cursor:not-allowed;pointer-events:none}
+.btn.active-toggle{background:#1a2a3a;border-color:var(--accent);color:#6ab0f5}
 .btn svg{flex-shrink:0;pointer-events:none}
-.btn.active{background:#1a2a3a;border-color:var(–accent);color:#6ab0f5}
 
 /* ── Main ── */
 #main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
 
 /* ── Import screen ── */
 #import-screen{flex:1;display:flex;align-items:center;justify-content:center;
-overflow-y:auto;padding:24px 16px}
-#drop-card{width:520px;max-width:100%;background:var(–panel);
-border:1.5px dashed var(–border2);border-radius:16px;padding:40px 28px 32px;
-text-align:center;transition:border-color .2s,background .2s}
+  overflow-y:auto;padding:24px 16px}
+#drop-card{width:500px;max-width:100%;background:var(--panel);
+  border:1.5px dashed var(--border2);border-radius:16px;padding:40px 28px 32px;
+  text-align:center;transition:border-color .2s,background .2s}
 #drop-card.drag-over{border-color:#4a4a58;background:#141418}
 .import-icon{margin:0 auto 20px;opacity:.4;pointer-events:none}
 #drop-card h2{font-size:17px;font-weight:500;margin-bottom:8px;color:#eee}
-#drop-card .sub{font-size:13px;color:var(–muted2);line-height:1.65;margin-bottom:24px}
+#drop-card .sub{font-size:13px;color:var(--muted2);line-height:1.65;margin-bottom:24px}
 #drop-card .sub em{font-style:normal;color:#3a7bd5}
-.file-types{font-size:10.5px;letter-spacing:.08em;color:var(–muted);
-margin-top:14px;text-transform:uppercase}
+.file-types{font-size:10.5px;letter-spacing:.08em;color:var(--muted);
+  margin-top:14px;text-transform:uppercase}
 .or-div{display:flex;align-items:center;gap:12px;margin:20px 0;
-color:var(–muted);font-size:11px}
-.or-div::before,.or-div::after{content:’’;flex:1;height:1px;background:var(–border)}
-#paste-area{width:100%;background:#0f0f12;border:1px solid var(–border);
-border-radius:8px;color:var(–text);font:12px/1.6 ‘Courier New’,Courier,monospace;
-padding:12px 14px;resize:none;height:88px;outline:none;
--webkit-user-select:text;user-select:text}
+  color:var(--muted);font-size:11px}
+.or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--border)}
+#paste-area{width:100%;background:#0f0f12;border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font:12px/1.6 'Courier New',Courier,monospace;
+  padding:12px 14px;resize:none;height:88px;outline:none;
+  -webkit-user-select:text;user-select:text}
 #paste-area:focus{border-color:#3a3a48}
-#paste-area::placeholder{color:var(–muted)}
-.gdocs-tip{background:#0f1f35;border:1px solid #1a3a5c;border-radius:8px;
-padding:11px 14px;margin-top:18px;text-align:left;font-size:11.5px;
-color:#7aabde;line-height:1.65}
-.gdocs-tip strong{color:#a0c8f0;display:block;margin-bottom:3px}
+#paste-area::placeholder{color:var(--muted)}
+.gdocs-tip{background:#0f1820;border:1px solid #1a3050;border-radius:8px;
+  padding:11px 14px;margin-top:18px;text-align:left;font-size:11.5px;
+  color:#6a9abf;line-height:1.65}
+.gdocs-tip strong{color:#8ab8d8;display:block;margin-bottom:2px}
 
 /* ── Editor screen ── */
 #editor-screen{display:none;flex:1;flex-direction:column;overflow:hidden}
 
-#mode-bar{background:#0d0d10;border-bottom:1px solid var(–border);
-height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0}
-.mode-label{font-size:11px;color:var(–muted);margin-right:4px}
-#hint-text{font-size:11px;color:var(–muted2);margin-left:8px}
-kbd{background:#1c1c22;border:1px solid var(–border2);border-radius:3px;
-padding:1px 6px;font:10.5px/1.4 inherit;color:#aaa}
+/* Hint bar — identical to v2 */
+#hint-bar{background:#0f0f12;border-bottom:1px solid var(--border);
+  height:34px;display:flex;align-items:center;padding:0 18px;gap:24px;flex-shrink:0}
+.hint{font-size:11px;color:var(--muted2);display:flex;align-items:center;gap:5px}
+kbd{background:#1c1c22;border:1px solid var(--border2);border-radius:3px;
+  padding:1px 6px;font:10.5px/1.4 inherit;color:#aaa}
 
-/* ── Doc scroll ── */
+/* Doc scroll — identical to v2 */
 #doc-scroll{flex:1;overflow-y:auto;display:flex;justify-content:center;
-background:#131316;padding:36px 16px 80px;-webkit-overflow-scrolling:touch}
+  background:#131316;padding:40px 16px 80px;-webkit-overflow-scrolling:touch}
 #doc-scroll::-webkit-scrollbar{width:5px}
 #doc-scroll::-webkit-scrollbar-thumb{background:#222228;border-radius:3px}
 
-#doc-paper{width:min(780px,100%);background:var(–doc);border-radius:3px;
-padding:60px 72px;min-height:480px;box-shadow:0 4px 60px rgba(0,0,0,.6);
-position:relative}
+#doc-paper{width:min(740px,100%);background:var(--doc);border-radius:3px;
+  padding:56px 60px;min-height:480px;box-shadow:0 4px 60px rgba(0,0,0,.6)}
 
-/* ── Rich document styles (mammoth output lives here) ── */
-#doc-content{color:var(–doc-text);outline:none;
--webkit-user-select:text;user-select:text;cursor:text}
-#doc-content p{font:14px/1.85 Georgia,‘Times New Roman’,serif;margin-bottom:10px}
-#doc-content h1{font:bold 26px/1.3 Georgia,serif;margin:22px 0 10px}
-#doc-content h2{font:bold 20px/1.3 Georgia,serif;margin:18px 0 8px}
-#doc-content h3{font:bold 16px/1.3 Georgia,serif;margin:14px 0 6px}
-#doc-content ul,#doc-content ol{margin:8px 0 10px 24px;font:14px/1.8 Georgia,serif}
-#doc-content table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px}
-#doc-content td,#doc-content th{border:1px solid #ccc;padding:7px 10px;text-align:left}
-#doc-content th{background:#e8e6e0;font-weight:600}
-#doc-content .plain-text{font:13.5px/1.9 ‘Courier New’,Courier,monospace}
+/* Doc content — plain text default (matches v2), rich overrides applied per-load */
+#doc-content{font:13.5px/1.9 'Courier New',Courier,monospace;color:var(--doc-text);
+  white-space:pre-wrap;word-break:break-word;
+  -webkit-user-select:text;user-select:text;cursor:text;outline:none}
 
-/* ── Text redaction spans ── */
+/* Rich document overrides — active only when .rich class present */
+#doc-content.rich{font:14px/1.85 Georgia,'Times New Roman',serif;white-space:normal}
+#doc-content.rich p{margin-bottom:10px}
+#doc-content.rich h1{font-size:26px;font-weight:bold;margin:22px 0 10px}
+#doc-content.rich h2{font-size:20px;font-weight:bold;margin:18px 0 8px}
+#doc-content.rich h3{font-size:16px;font-weight:bold;margin:14px 0 6px}
+#doc-content.rich ul,#doc-content.rich ol{margin:8px 0 10px 24px}
+#doc-content.rich table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px}
+#doc-content.rich td,#doc-content.rich th{border:1px solid #ccc;padding:7px 10px;text-align:left}
+#doc-content.rich th{background:#e8e6e0;font-weight:600}
+
+/* Text redaction spans — identical to v2 */
 #doc-content .rx{background:#101010;color:#101010;border-radius:2px;
-cursor:pointer;display:inline;padding:1px 0;position:relative}
+  cursor:pointer;display:inline;padding:1px 0}
 #doc-content .rx:hover{background:#000}
 #rx-tip{position:fixed;background:#1e1e26;color:#b0b0be;font-size:10px;
-font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:4px 9px;
-border-radius:5px;pointer-events:none;white-space:nowrap;z-index:300;
-opacity:0;transition:opacity .15s;border:1px solid #2e2e3a}
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:4px 9px;
+  border-radius:5px;pointer-events:none;white-space:nowrap;z-index:300;
+  opacity:0;transition:opacity .15s;border:1px solid #2e2e3a}
 #rx-tip.visible{opacity:1}
 
-/* ── Image redaction ── */
-.img-wrap{position:relative;display:inline-block;max-width:100%;margin:8px 0;
-line-height:0}
+/* Image wrapping and canvas overlay */
+.img-wrap{position:relative;display:inline-block;max-width:100%;margin:8px 0;line-height:0}
 .img-wrap img{display:block;max-width:100%;height:auto;border-radius:2px}
-.img-canvas{position:absolute;top:0;left:0;width:100%;height:100%;
-border-radius:2px;touch-action:none}
-.img-canvas.active{cursor:crosshair}
-.img-canvas.inactive{cursor:default;pointer-events:none}
+.img-canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:2px;touch-action:none}
+.img-canvas.draw-active{cursor:crosshair}
+.img-canvas.draw-inactive{cursor:default;pointer-events:none}
 
-/* Image mode indicator */
-#img-mode-hint{background:#0f1f35;border:1px solid #1a3a5c;
-border-radius:6px;padding:5px 12px;font-size:11px;color:#7aabde;
-display:none;align-items:center;gap:6px;margin-left:8px}
-#img-mode-hint.visible{display:flex}
-
-/* ── Floating redact pill ── */
-#float-redact{position:fixed;z-index:500;background:var(–red);color:#fff;
-font:600 13px/1 -apple-system,BlinkMacSystemFont,sans-serif;
-padding:0 20px;height:38px;border-radius:22px;display:none;
-align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.55);
-cursor:pointer;border:none;-webkit-user-select:none;user-select:none;
-touch-action:manipulation;transform:translateX(-50%);transition:transform .1s}
+/* ── Floating redact pill — identical to v2 ── */
+#float-redact{position:fixed;z-index:500;background:var(--red);color:#fff;
+  font:600 13px/1 -apple-system,BlinkMacSystemFont,sans-serif;
+  padding:0 20px;height:38px;border-radius:22px;display:none;
+  align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.55);
+  cursor:pointer;border:none;-webkit-user-select:none;user-select:none;
+  touch-action:manipulation;transform:translateX(-50%);transition:transform .1s}
 #float-redact:active{transform:translateX(-50%) scale(.95)}
 
-/* ── Mobile bottom bar ── */
-#mobile-bar{display:none;background:var(–panel);border-top:1px solid var(–border);
-padding:8px 12px env(safe-area-inset-bottom,8px);gap:8px;
-flex-wrap:wrap;justify-content:center;flex-shrink:0}
+/* ── Mobile bottom bar — v2 layout + image button ── */
+#mobile-bar{display:none;background:var(--panel);border-top:1px solid var(--border);
+  padding:8px 12px env(safe-area-inset-bottom,8px);gap:8px;
+  flex-wrap:wrap;justify-content:center;flex-shrink:0}
 #mobile-bar .btn{height:42px;font-size:12px;flex:1;max-width:140px}
 
-/* ── Status bar ── */
-#statusbar{background:var(–panel);border-top:1px solid var(–border);
-height:28px;display:flex;align-items:center;padding:0 14px;gap:16px;
-font-size:10.5px;color:var(–muted);flex-shrink:0;overflow:hidden}
+/* ── Status bar — identical to v2 ── */
+#statusbar{background:var(--panel);border-top:1px solid var(--border);
+  height:28px;display:flex;align-items:center;padding:0 14px;gap:16px;
+  font-size:10.5px;color:var(--muted);flex-shrink:0;overflow:hidden}
 .stat{display:flex;align-items:center;gap:4px;white-space:nowrap}
-.stat b{color:var(–muted2);font-weight:500}
-#redaction-badge{background:var(–red);color:#fff;font-size:9.5px;font-weight:700;
-padding:1px 6px;border-radius:9px;display:none}
+.stat b{color:var(--muted2);font-weight:500}
+#redaction-badge{background:var(--red);color:#fff;font-size:9.5px;font-weight:700;
+  padding:1px 6px;border-radius:9px;display:none}
 #security-note{margin-left:auto;display:flex;align-items:center;gap:4px;
-color:#2e2e3e;font-size:10px;white-space:nowrap}
+  color:#333340;font-size:10px;white-space:nowrap}
 
-/* ── Hidden inputs ── */
 #file-input{display:none}
 
-/* ── Export dialog ── */
+/* ── Export dialog — identical to v2 ── */
 #export-dialog{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);
-z-index:400;align-items:flex-end;justify-content:center}
+  z-index:400;align-items:flex-end;justify-content:center}
 #export-dialog.open{display:flex}
 #export-panel{background:#17171c;border:1px solid #2c2c36;border-radius:14px 14px 0 0;
-padding:24px 20px 32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+  padding:24px 20px 32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
 #export-panel h3{font-size:15px;font-weight:500;margin-bottom:4px}
-.ep-sub{font-size:12px;color:var(–muted2);margin-bottom:18px;line-height:1.55}
-.eo{background:#111115;border:1px solid var(–border);border-radius:9px;
-padding:13px 15px;margin-bottom:8px;cursor:pointer;
-transition:border-color .15s,background .15s;
-min-height:44px;display:flex;flex-direction:column;justify-content:center;
-touch-action:manipulation}
+.ep-sub{font-size:12px;color:var(--muted2);margin-bottom:18px;line-height:1.55}
+.eo{background:#111115;border:1px solid var(--border);border-radius:9px;
+  padding:13px 15px;margin-bottom:8px;cursor:pointer;
+  transition:border-color .15s,background .15s;
+  min-height:44px;display:flex;flex-direction:column;justify-content:center;
+  touch-action:manipulation}
 .eo:hover,.eo:focus{border-color:#383844;background:#141418;outline:none}
 .eo:active{background:#1a1a22}
 .eo strong{display:block;font-size:13px;font-weight:500;margin-bottom:3px;
-font-family:‘Courier New’,Courier,monospace;letter-spacing:.02em}
-.eo span{font-size:11px;color:var(–muted2)}
+  font-family:'Courier New',Courier,monospace;letter-spacing:.02em}
+.eo span{font-size:11px;color:var(--muted2)}
 .ep-footer{display:flex;justify-content:flex-end;margin-top:12px}
 
-/* ── Preview dialog ── */
+/* ── Preview dialog — identical to v2 ── */
 #preview-dialog{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);
-z-index:410;align-items:center;justify-content:center;padding:16px}
+  z-index:410;align-items:center;justify-content:center;padding:16px}
 #preview-dialog.open{display:flex}
 #preview-panel{background:#17171c;border:1px solid #2c2c36;border-radius:14px;
-width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
-#preview-header{padding:18px 20px 14px;border-bottom:1px solid var(–border);flex-shrink:0}
+  width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+#preview-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 #preview-header h3{font-size:14px;font-weight:500}
-#preview-header p{font-size:11px;color:var(–muted2);margin-top:3px}
+#preview-header p{font-size:11px;color:var(--muted2);margin-top:3px}
 #preview-body{flex:1;overflow-y:auto;padding:16px 20px;-webkit-overflow-scrolling:touch}
-#preview-text{font:12px/1.8 ‘Courier New’,Courier,monospace;
-color:var(–text);white-space:pre-wrap;word-break:break-word}
-#preview-footer{padding:12px 20px;border-top:1px solid var(–border);
-display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
+#preview-text{font:12px/1.8 'Courier New',Courier,monospace;
+  color:var(--text);white-space:pre-wrap;word-break:break-word}
+#preview-footer{padding:12px 20px;border-top:1px solid var(--border);
+  display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 #preview-footer .btn{height:38px}
-.btn-confirm{background:var(–accent);border-color:var(–accent);color:#fff;font-weight:600}
+.btn-confirm{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .btn-confirm:hover{background:#1f5cbf;border-color:#1f5cbf}
 
-/* ── Responsive ── */
+/* ── Responsive — matches v2 breakpoints ── */
 @media(max-width:600px){
-#doc-paper{padding:24px 16px}
-.hide-mobile{display:none!important}
-#mode-bar{display:none}
-#mobile-bar{display:flex}
-#statusbar .stat:nth-child(2){display:none}
+  #doc-paper{padding:26px 18px}
+  .hide-mobile{display:none!important}
+  #hint-bar{display:none}
+  #mobile-bar{display:flex}
+  #statusbar .stat:nth-child(2){display:none}
 }
 @media(min-width:601px){
-#export-panel{border-radius:14px}
+  #export-panel{border-radius:14px}
 }
 </style>
-
 </head>
 <body>
 
@@ -222,13 +210,12 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 <div id="rx-tip">Click to restore</div>
 
 <!-- ── Topbar ── -->
-
 <div id="topbar">
   <div id="logo">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <rect x="2" y="1" width="10" height="14" rx="1.5" stroke="#888" stroke-width="1.1"/>
       <path d="M9 1v4h4" stroke="#888" stroke-width="1.1" stroke-linecap="round"/>
-      <rect x="4" y="6.5" width="6" height="1.4" rx=".7" fill="#000" fill-opacity=".9"/>
+      <rect x="4" y="6.5" width="6"   height="1.4" rx=".7" fill="#000" fill-opacity=".9"/>
       <rect x="4" y="9"   width="4.5" height="1.4" rx=".7" fill="#000" fill-opacity=".75"/>
       <rect x="4" y="11.5" width="5.5" height="1.4" rx=".7" fill="#555"/>
     </svg>
@@ -237,18 +224,16 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
   <span id="doc-name">No document loaded</span>
   <button class="btn hide-mobile" id="btn-import-new" style="display:none">
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-    New
+    Import new
   </button>
-  <div class="sep hide-mobile" id="sep1" style="display:none"></div>
   <button class="btn btn-red hide-mobile" id="btn-redact" disabled>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3.5" width="10" height="5" rx="1" fill="currentColor"/></svg>
-    Redact text
+    Redact selection
   </button>
   <button class="btn hide-mobile" id="btn-img-mode" disabled>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" fill="currentColor"/><path d="M1 8l3-2.5 2.5 2 2-1.5 2.5 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Image redact
   </button>
-  <div class="sep hide-mobile"></div>
   <button class="btn hide-mobile" id="btn-undo" disabled>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 5.5a4 4 0 1 1 .8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3v3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Undo
@@ -261,11 +246,9 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 </div>
 
 <!-- ── Main ── -->
-
 <div id="main">
 
   <!-- Import screen -->
-
   <div id="import-screen">
     <div id="drop-card" tabindex="0">
       <svg class="import-icon" width="44" height="52" viewBox="0 0 44 52" fill="none">
@@ -278,12 +261,12 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
         <path d="M33 37v8M29.5 41l3.5-4 3.5 4" stroke="#777" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <h2>Drop a document here</h2>
-      <p class="sub">Supports Google Docs exports, Word files, PDFs, and plain text.<br><em>All processing is local — nothing is ever uploaded.</em></p>
+      <p class="sub">Drag and drop a file or use the button below.<br><em>Everything runs locally — nothing is ever uploaded.</em></p>
       <button class="btn" id="btn-browse" style="margin:0 auto;height:42px;padding:0 22px;font-size:13px">Browse files…</button>
       <div class="file-types">Supported: DOCX · TXT · MD · CSV · PDF</div>
       <div class="gdocs-tip">
         <strong>Using Google Docs?</strong>
-        In Google Docs: File → Download → Microsoft Word (.docx) — then import that file here. Images and formatting are fully preserved.
+        File → Download → Microsoft Word (.docx) — then import that file here. Images and formatting are fully preserved.
       </div>
       <div class="or-div">or paste plain text</div>
       <textarea id="paste-area" placeholder="Paste document text here…" spellcheck="false"></textarea>
@@ -292,56 +275,47 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
   </div>
 
   <!-- Editor screen -->
-
   <div id="editor-screen">
-    <div id="mode-bar">
-      <span class="mode-label">Mode:</span>
-      <button class="btn active" id="mb-text" style="height:26px;font-size:11px;padding:0 10px">Text</button>
-      <button class="btn"        id="mb-image" style="height:26px;font-size:11px;padding:0 10px" disabled>Image</button>
-      <span id="hint-text"></span>
-      <div id="img-mode-hint">
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width=".9"/><path d="M5.5 4.5v3M5.5 3.5v.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-        Draw rectangles over images to redact them
+    <!-- Hint bar — restored from v2 -->
+    <div id="hint-bar">
+      <span class="hint" id="hint-text">Select text → press <kbd>R</kbd> or click Redact selection</span>
+      <span class="hint">Click a redacted block to remove it</span>
+      <span class="hint"><kbd>Ctrl Z</kbd> undo</span>
+    </div>
+
+    <div id="doc-scroll">
+      <div id="doc-paper">
+        <div id="doc-content" tabindex="0" role="region" aria-label="Document. Select text then activate Redact."></div>
       </div>
     </div>
 
-```
-<div id="doc-scroll">
-  <div id="doc-paper">
-    <div id="doc-content" tabindex="0" role="region" aria-label="Document. Select text and tap Redact."></div>
-  </div>
-</div>
-
-<!-- Mobile bottom bar -->
-<div id="mobile-bar">
-  <button class="btn btn-red" id="btn-redact-m" disabled>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3.5" width="10" height="5" rx="1" fill="currentColor"/></svg>
-    Redact
-  </button>
-  <button class="btn" id="btn-img-mode-m" disabled>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" fill="currentColor"/><path d="M1 8l3-2.5 2.5 2 2-1.5 2.5 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Image
-  </button>
-  <button class="btn" id="btn-undo-m" disabled>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 5.5a4 4 0 1 1 .8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3v3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Undo
-  </button>
-  <button class="btn" id="btn-export-m" disabled>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-    Export
-  </button>
-  <button class="btn" id="btn-import-new-m" style="display:none">New</button>
-</div>
-```
-
+    <!-- Mobile bottom bar -->
+    <div id="mobile-bar">
+      <button class="btn btn-red" id="btn-redact-m" disabled>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3.5" width="10" height="5" rx="1" fill="currentColor"/></svg>
+        Redact
+      </button>
+      <button class="btn" id="btn-img-mode-m" disabled>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" fill="currentColor"/><path d="M1 8l3-2.5 2.5 2 2-1.5 2.5 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Image
+      </button>
+      <button class="btn" id="btn-undo-m" disabled>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 5.5a4 4 0 1 1 .8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3v3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Undo
+      </button>
+      <button class="btn" id="btn-export-m" disabled>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Export
+      </button>
+      <button class="btn" id="btn-import-new-m" style="display:none">New</button>
+    </div>
   </div>
 </div>
 
 <!-- Status bar -->
-
 <div id="statusbar">
   <div class="stat">Words: <b id="stat-words">—</b></div>
-  <div class="stat">Chars: <b id="stat-chars">—</b></div>
+  <div class="stat">Characters: <b id="stat-chars">—</b></div>
   <div class="stat">Redactions: <b id="stat-reds">—</b> <span id="redaction-badge">ACTIVE</span></div>
   <span id="security-note">
     <svg width="10" height="11" viewBox="0 0 10 11" fill="none"><path d="M5 1L1.5 3v3C1.5 8.3 3 9.7 5 10.3 7 9.7 8.5 8.3 8.5 6V3L5 1z" stroke="currentColor" stroke-width=".9"/></svg>
@@ -351,8 +325,7 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 
 <input type="file" id="file-input" accept=".txt,.md,.csv,.pdf,.docx">
 
-<!-- Export format dialog -->
-
+<!-- Export dialog -->
 <div id="export-dialog" role="dialog" aria-modal="true" aria-label="Export format">
   <div id="export-panel">
     <h3>Export redacted document</h3>
@@ -378,7 +351,6 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 </div>
 
 <!-- Preview dialog -->
-
 <div id="preview-dialog" role="dialog" aria-modal="true" aria-label="Export preview">
   <div id="preview-panel">
     <div id="preview-header">
@@ -396,30 +368,22 @@ display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
   </div>
 </div>
 
-<!-- Libraries -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-
 <script>
-/* ═══════════ PART 2: JS inserted below ═══════════ */
 (function(){
 'use strict';
 
-/* ─────────────────────────────────────────
-   PDF.js worker
-───────────────────────────────────────── */
 if(window.pdfjsLib){
   pdfjsLib.GlobalWorkerOptions.workerSrc=
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-/* ─────────────────────────────────────────
-   SECURE STORE
-   Redacted text values live only here.
-   DOM spans hold █ placeholders only.
-───────────────────────────────────────── */
+/* ═══════════════════════════════════════
+   SECURE TEXT STORE
+   Redacted text lives only here.
+   DOM spans contain only █ placeholders.
+═══════════════════════════════════════ */
 var store={
   _m:new Map(),
   set:function(id,v){this._m.set(id,String(v))},
@@ -429,10 +393,10 @@ var store={
   clone:function(){return new Map(this._m)}
 };
 
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════
    IMAGE REDACTION STORE
-   Per image: array of {x,y,w,h} in 0-1 normalised coords
-───────────────────────────────────────── */
+   Per-image array of normalised rects {x,y,w,h} in 0-1 coords.
+═══════════════════════════════════════ */
 var imgStore={
   _m:new Map(),
   get:function(id){if(!this._m.has(id))this._m.set(id,[]);return this._m.get(id)},
@@ -441,27 +405,23 @@ var imgStore={
   clear:function(){this._m.clear()},
   clone:function(){
     var c=new Map();
-    this._m.forEach(function(v,k){c.set(k,v.map(function(r){return{x:r.x,y:r.y,w:r.w,h:r.h}}))});
+    this._m.forEach(function(v,k){
+      c.set(k,v.map(function(r){return{x:r.x,y:r.y,w:r.w,h:r.h}}));
+    });
     return c;
   },
-  restore:function(cloned){this._m=cloned}
+  restore:function(c){this._m=c}
 };
 
-/* ─────────────────────────────────────────
-   STATE
-───────────────────────────────────────── */
-var docFileName='document.txt';
-var docIsRich=false;
+/* ── State ── */
 var imageMode=false;
 var pendingMode=null;
 var nextImgId=0;
-
-/* Undo: stack of {html, storeClone, imgStoreClone} */
+var rxIdCounter=0;
+var docFileName='document.txt';
 var undoStack=[];
 
-/* ─────────────────────────────────────────
-   DOM REFS
-───────────────────────────────────────── */
+/* ── DOM refs ── */
 var docContent   =document.getElementById('doc-content');
 var docNameEl    =document.getElementById('doc-name');
 var importScreen =document.getElementById('import-screen');
@@ -471,21 +431,13 @@ var previewDialog=document.getElementById('preview-dialog');
 var floatPill    =document.getElementById('float-redact');
 var rxTip        =document.getElementById('rx-tip');
 var hintText     =document.getElementById('hint-text');
-var imgModeHint  =document.getElementById('img-mode-hint');
 
-/* ─────────────────────────────────────────
-   UNDO
-───────────────────────────────────────── */
+/* ── Undo ── */
 function snapshot(){
-  undoStack.push({
-    html:docContent.innerHTML,
-    st:store.clone(),
-    ist:imgStore.clone()
-  });
+  undoStack.push({html:docContent.innerHTML,st:store.clone(),ist:imgStore.clone()});
   if(undoStack.length>60)undoStack.shift();
   updateButtons();
 }
-
 function undo(){
   if(!undoStack.length)return;
   var prev=undoStack.pop();
@@ -498,12 +450,9 @@ function undo(){
   updateButtons();
 }
 
-/* ─────────────────────────────────────────
-   SPAN LISTENERS (text redaction)
-───────────────────────────────────────── */
+/* ── Span listeners ── */
 function initSpanListeners(){
-  var spans=docContent.querySelectorAll('.rx');
-  spans.forEach(function(span){
+  docContent.querySelectorAll('.rx').forEach(function(span){
     span.removeEventListener('click',onSpanClick);
     span.removeEventListener('mouseenter',onSpanEnter);
     span.removeEventListener('mouseleave',onSpanLeave);
@@ -512,11 +461,9 @@ function initSpanListeners(){
     span.addEventListener('mouseleave',onSpanLeave);
   });
 }
-
 function onSpanClick(e){
   if(imageMode)return;
-  var id=parseInt(e.currentTarget.dataset.id,10);
-  restoreSpan(id);
+  restoreSpan(parseInt(e.currentTarget.dataset.id,10));
 }
 function onSpanEnter(e){
   if(imageMode)return;
@@ -526,69 +473,40 @@ function onSpanEnter(e){
   rxTip.style.top=(r.top-rxTip.offsetHeight-6)+'px';
 }
 function onSpanLeave(){rxTip.classList.remove('visible')}
-
 function restoreSpan(id){
   snapshot();
-  var original=store.get(id);
-  store.del(id);
+  var orig=store.get(id);store.del(id);
   var span=docContent.querySelector('.rx[data-id="'+id+'"]');
   if(!span)return;
-  var text=document.createTextNode(original);
-  span.parentNode.replaceChild(text,span);
-  updateStats();
-  updateButtons();
+  span.parentNode.replaceChild(document.createTextNode(orig),span);
+  updateStats();updateButtons();
 }
 
-/* ─────────────────────────────────────────
-   TEXT SELECTION → REDACTION
-   Uses TreeWalker to find text nodes in selection,
-   splits them and wraps selected portion in .rx span.
-───────────────────────────────────────── */
-var rxIdCounter=0;
-
+/* ── Text redaction via TreeWalker ── */
 function redactSelection(){
   var sel=window.getSelection();
   if(!sel||sel.isCollapsed||!sel.rangeCount)return;
   var range=sel.getRangeAt(0);
   if(!docContent.contains(range.commonAncestorContainer))return;
-
   snapshot();
-
-  /* Collect all text nodes that intersect the range */
-  var walker=document.createTreeWalker(
-    range.commonAncestorContainer===docContent
-      ?docContent
-      :range.commonAncestorContainer.nodeType===Node.TEXT_NODE
-        ?range.commonAncestorContainer.parentNode
-        :range.commonAncestorContainer,
-    NodeFilter.SHOW_TEXT,
-    null,
-    false
-  );
-
-  var textNodes=[];
-  var node;
-  while((node=walker.nextNode())){
-    if(range.intersectsNode(node))textNodes.push(node);
-  }
-
-  if(!textNodes.length){sel.removeAllRanges();return}
-
-  textNodes.forEach(function(tn){
-    var start=0,end=tn.length;
-    if(tn===range.startContainer)start=range.startOffset;
-    if(tn===range.endContainer)  end=range.endOffset;
-    if(start>=end)return;
-
-    var before=tn.textContent.slice(0,start);
-    var middle=tn.textContent.slice(start,end);
-    var after =tn.textContent.slice(end);
-
+  var root=range.commonAncestorContainer;
+  if(root.nodeType===Node.TEXT_NODE)root=root.parentNode;
+  var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null,false);
+  var nodes=[];
+  var n;
+  while((n=walker.nextNode())){if(range.intersectsNode(n))nodes.push(n)}
+  if(!nodes.length){sel.removeAllRanges();return}
+  nodes.forEach(function(tn){
+    var s=0,e=tn.length;
+    if(tn===range.startContainer)s=range.startOffset;
+    if(tn===range.endContainer)  e=range.endOffset;
+    if(s>=e)return;
+    var before=tn.textContent.slice(0,s);
+    var middle=tn.textContent.slice(s,e);
+    var after =tn.textContent.slice(e);
     if(!middle)return;
-
     var id=rxIdCounter++;
     store.set(id,middle);
-
     var span=document.createElement('span');
     span.className='rx';
     span.dataset.id=String(id);
@@ -597,267 +515,201 @@ function redactSelection(){
     span.addEventListener('click',onSpanClick);
     span.addEventListener('mouseenter',onSpanEnter);
     span.addEventListener('mouseleave',onSpanLeave);
-
     var frag=document.createDocumentFragment();
     if(before)frag.appendChild(document.createTextNode(before));
     frag.appendChild(span);
     if(after) frag.appendChild(document.createTextNode(after));
-
     tn.parentNode.replaceChild(frag,tn);
   });
-
   sel.removeAllRanges();
   hideFloat();
-  updateStats();
-  updateButtons();
+  updateStats();updateButtons();
 }
 
-/* ─────────────────────────────────────────
-   CLEAR ALL TEXT REDACTIONS
-───────────────────────────────────────── */
-function clearAllText(){
-  var spans=Array.from(docContent.querySelectorAll('.rx'));
-  if(!spans.length)return;
-  snapshot();
-  spans.forEach(function(span){
-    var id=parseInt(span.dataset.id,10);
-    var original=store.get(id);
-    store.del(id);
-    span.parentNode.replaceChild(document.createTextNode(original),span);
-  });
-  updateStats();
-  updateButtons();
-}
-
-function clearAllImages(){
-  var canvases=docContent.querySelectorAll('.img-canvas');
-  canvases.forEach(function(c){
-    var ctx=c.getContext('2d');
-    ctx.clearRect(0,0,c.width,c.height);
-    var id=parseInt(c.dataset.imgid,10);
-    imgStore.del(id);
-  });
-  updateStats();
-  updateButtons();
-}
-
+/* ── Clear all ── */
 function clearAll(){
   var hasText=docContent.querySelectorAll('.rx').length>0;
-  var hasImg=false;
-  imgStore._m.forEach(function(v){if(v.length)hasImg=true});
+  var hasImg=false;imgStore._m.forEach(function(v){if(v.length)hasImg=true});
   if(!hasText&&!hasImg)return;
   snapshot();
-  clearAllText();
-  clearAllImages();
+  docContent.querySelectorAll('.rx').forEach(function(span){
+    var id=parseInt(span.dataset.id,10);
+    var t=store.get(id);store.del(id);
+    span.parentNode.replaceChild(document.createTextNode(t),span);
+  });
+  docContent.querySelectorAll('.img-canvas').forEach(function(c){
+    var ctx=c.getContext('2d');
+    ctx.clearRect(0,0,c.width,c.height);
+    imgStore.del(parseInt(c.dataset.imgid,10));
+  });
+  updateStats();updateButtons();
 }
 
-/* ─────────────────────────────────────────
-   IMAGE MODE & CANVAS REDACTION
-───────────────────────────────────────── */
+/* ── Image mode ── */
 function setImageMode(on){
   imageMode=on;
-
-  document.getElementById('mb-text').classList.toggle('active',!on);
-  document.getElementById('mb-image').classList.toggle('active',on);
-  document.getElementById('btn-img-mode').classList.toggle('active',on);
-  document.getElementById('btn-img-mode-m').classList.toggle('active',on);
-
-  imgModeHint.classList.toggle('visible',on);
-
-  /* Toggle canvas pointer events */
-  var canvases=docContent.querySelectorAll('.img-canvas');
-  canvases.forEach(function(c){
-    c.classList.toggle('active',on);
-    c.classList.toggle('inactive',!on);
+  var btnImg =document.getElementById('btn-img-mode');
+  var btnImgM=document.getElementById('btn-img-mode-m');
+  btnImg.classList.toggle('active-toggle',on);
+  btnImgM.classList.toggle('active-toggle',on);
+  docContent.querySelectorAll('.img-canvas').forEach(function(c){
+    c.classList.toggle('draw-active',on);
+    c.classList.toggle('draw-inactive',!on);
   });
-
   if(on){
-    hintText.textContent='Draw rectangles over image areas to redact them. Click Text to return.';
-    floatPill.style.display='none';
+    hintText.innerHTML='Draw rectangles over images to redact them &nbsp;—&nbsp; click <kbd>Image redact</kbd> again to exit';
+    hideFloat();
   }else{
-    hintText.textContent='Select text → press R or click Redact text.';
+    hintText.innerHTML='Select text \u2192 press <kbd>R</kbd> or click Redact selection';
   }
 }
 
+/* ── Canvas image redaction ── */
 function initCanvases(){
-  /* Wrap all bare imgs that aren't already wrapped */
-  var imgs=docContent.querySelectorAll('img');
-  imgs.forEach(function(img){
+  docContent.querySelectorAll('img').forEach(function(img){
     if(img.parentNode.classList&&img.parentNode.classList.contains('img-wrap'))return;
     var wrap=document.createElement('div');
     wrap.className='img-wrap';
     img.parentNode.insertBefore(wrap,img);
     wrap.appendChild(img);
-
     var canvas=document.createElement('canvas');
-    canvas.className='img-canvas inactive';
+    canvas.className='img-canvas draw-inactive';
     var id=nextImgId++;
     canvas.dataset.imgid=String(id);
     wrap.appendChild(canvas);
-
-    img.addEventListener('load',function(){syncCanvasSize(canvas,img)});
-    if(img.complete)syncCanvasSize(canvas,img);
-
-    attachCanvasDraw(canvas,img,id);
+    img.addEventListener('load',function(){syncCanvas(canvas,img,id)});
+    if(img.complete&&img.naturalWidth)syncCanvas(canvas,img,id);
+    attachDraw(canvas,id);
   });
-
-  /* For already-wrapped canvases after undo, re-attach */
-  var canvases=docContent.querySelectorAll('.img-canvas');
-  canvases.forEach(function(canvas){
-    var wrap=canvas.parentNode;
-    var img=wrap.querySelector('img');
+  docContent.querySelectorAll('.img-canvas').forEach(function(canvas){
+    var img=canvas.parentNode.querySelector('img');
     if(!img)return;
     var id=parseInt(canvas.dataset.imgid,10);
-    if(img.complete)syncCanvasSize(canvas,img);
-    redrawCanvas(canvas,id);
-    attachCanvasDraw(canvas,img,id);
+    if(img.complete&&img.naturalWidth)syncCanvas(canvas,img,id);
+    attachDraw(canvas,id);
   });
 }
 
-function syncCanvasSize(canvas,img){
+function syncCanvas(canvas,img,id){
   canvas.width=img.naturalWidth||img.offsetWidth||300;
   canvas.height=img.naturalHeight||img.offsetHeight||200;
-  var id=parseInt(canvas.dataset.imgid,10);
   redrawCanvas(canvas,id);
 }
 
 function redrawCanvas(canvas,id){
   var ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  var rects=imgStore.get(id);
   ctx.fillStyle='#000';
-  rects.forEach(function(r){
+  imgStore.get(id).forEach(function(r){
     ctx.fillRect(
-      Math.round(r.x*canvas.width),
-      Math.round(r.y*canvas.height),
-      Math.round(r.w*canvas.width),
-      Math.round(r.h*canvas.height)
+      Math.round(r.x*canvas.width),Math.round(r.y*canvas.height),
+      Math.round(r.w*canvas.width),Math.round(r.h*canvas.height)
     );
   });
 }
 
-function attachCanvasDraw(canvas,img,id){
-  /* Remove old listeners by cloning */
+function attachDraw(canvas,id){
   var fresh=canvas.cloneNode(true);
   canvas.parentNode.replaceChild(fresh,canvas);
   canvas=fresh;
-
-  var drawing=false;
-  var startX=0,startY=0;
-
-  function getPos(e){
-    var rect=canvas.getBoundingClientRect();
-    var cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
-    var cy=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
-    return{
-      x:cx/rect.width,
-      y:cy/rect.height
-    };
+  var drawing=false,sx=0,sy=0;
+  function pos(e){
+    var r=canvas.getBoundingClientRect();
+    var cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+    var cy=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+    return{x:cx/r.width,y:cy/r.height};
   }
-
-  function startDraw(e){
-    if(!imageMode)return;
-    e.preventDefault();
-    var pos=getPos(e);
-    startX=pos.x;startY=pos.y;
-    drawing=true;
-  }
-  function moveDraw(e){
-    if(!drawing||!imageMode)return;
-    e.preventDefault();
-    var pos=getPos(e);
+  canvas.addEventListener('mousedown',function(e){
+    if(!imageMode)return;e.preventDefault();
+    var p=pos(e);sx=p.x;sy=p.y;drawing=true;
+  });
+  canvas.addEventListener('mousemove',function(e){
+    if(!drawing||!imageMode)return;e.preventDefault();
+    var p=pos(e);
+    redrawCanvas(canvas,id);
     var ctx=canvas.getContext('2d');
-    redrawCanvas(canvas,id);
     ctx.fillStyle='rgba(0,0,0,0.7)';
-    var rx=Math.min(startX,pos.x);
-    var ry=Math.min(startY,pos.y);
-    var rw=Math.abs(pos.x-startX);
-    var rh=Math.abs(pos.y-startY);
     ctx.fillRect(
-      Math.round(rx*canvas.width),
-      Math.round(ry*canvas.height),
-      Math.round(rw*canvas.width),
-      Math.round(rh*canvas.height)
+      Math.round(Math.min(sx,p.x)*canvas.width),
+      Math.round(Math.min(sy,p.y)*canvas.height),
+      Math.round(Math.abs(p.x-sx)*canvas.width),
+      Math.round(Math.abs(p.y-sy)*canvas.height)
     );
-  }
-  function endDraw(e){
-    if(!drawing||!imageMode)return;
-    drawing=false;
-    var pos=e.changedTouches
-      ?{x:(e.changedTouches[0].clientX-canvas.getBoundingClientRect().left)/canvas.getBoundingClientRect().width,
-        y:(e.changedTouches[0].clientY-canvas.getBoundingClientRect().top)/canvas.getBoundingClientRect().height}
-      :getPos(e);
-    var rx=Math.min(startX,pos.x);
-    var ry=Math.min(startY,pos.y);
-    var rw=Math.abs(pos.x-startX);
-    var rh=Math.abs(pos.y-startY);
+  });
+  canvas.addEventListener('mouseup',function(e){
+    if(!drawing||!imageMode)return;drawing=false;
+    var p=pos(e);
+    var rx=Math.min(sx,p.x),ry=Math.min(sy,p.y);
+    var rw=Math.abs(p.x-sx),rh=Math.abs(p.y-sy);
     if(rw<0.005||rh<0.005)return;
-    snapshot();
-    imgStore.add(id,{x:rx,y:ry,w:rw,h:rh});
+    snapshot();imgStore.add(id,{x:rx,y:ry,w:rw,h:rh});
+    redrawCanvas(canvas,id);updateStats();updateButtons();
+  });
+  canvas.addEventListener('touchstart',function(e){
+    if(!imageMode)return;e.preventDefault();
+    var p=pos(e);sx=p.x;sy=p.y;drawing=true;
+  },{passive:false});
+  canvas.addEventListener('touchmove',function(e){
+    if(!drawing||!imageMode)return;e.preventDefault();
+    var p=pos(e);
     redrawCanvas(canvas,id);
-    updateStats();
-    updateButtons();
-  }
-
-  canvas.addEventListener('mousedown',startDraw);
-  canvas.addEventListener('mousemove',moveDraw);
-  canvas.addEventListener('mouseup',endDraw);
-  canvas.addEventListener('touchstart',startDraw,{passive:false});
-  canvas.addEventListener('touchmove',moveDraw,{passive:false});
-  canvas.addEventListener('touchend',endDraw);
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='rgba(0,0,0,0.7)';
+    ctx.fillRect(
+      Math.round(Math.min(sx,p.x)*canvas.width),
+      Math.round(Math.min(sy,p.y)*canvas.height),
+      Math.round(Math.abs(p.x-sx)*canvas.width),
+      Math.round(Math.abs(p.y-sy)*canvas.height)
+    );
+  },{passive:false});
+  canvas.addEventListener('touchend',function(e){
+    if(!drawing||!imageMode)return;drawing=false;
+    var t=e.changedTouches[0];
+    var r=canvas.getBoundingClientRect();
+    var p={x:(t.clientX-r.left)/r.width,y:(t.clientY-r.top)/r.height};
+    var rx=Math.min(sx,p.x),ry=Math.min(sy,p.y);
+    var rw=Math.abs(p.x-sx),rh=Math.abs(p.y-sy);
+    if(rw<0.005||rh<0.005)return;
+    snapshot();imgStore.add(id,{x:rx,y:ry,w:rw,h:rh});
+    redrawCanvas(canvas,id);updateStats();updateButtons();
+  });
 }
 
-/* ─────────────────────────────────────────
-   STATS & BUTTONS
-───────────────────────────────────────── */
+/* ── Stats & buttons ── */
 function updateStats(){
   var walker=document.createTreeWalker(docContent,NodeFilter.SHOW_TEXT,null,false);
-  var text='';
-  var n;
-  while((n=walker.nextNode()))text+=n.textContent;
-  /* Add back redacted lengths from store */
+  var text='',node;
+  while((node=walker.nextNode()))text+=node.textContent;
   docContent.querySelectorAll('.rx').forEach(function(s){
     text+=store.get(parseInt(s.dataset.id,10));
   });
   var wc=text.trim()?text.trim().split(/\s+/).length:0;
-
   document.getElementById('stat-words').textContent=wc.toLocaleString();
   document.getElementById('stat-chars').textContent=text.length.toLocaleString();
-
   var trc=docContent.querySelectorAll('.rx').length;
-  var irc=0;
-  imgStore._m.forEach(function(v){irc+=v.length});
+  var irc=0;imgStore._m.forEach(function(v){irc+=v.length});
   var rc=trc+irc;
   document.getElementById('stat-reds').textContent=rc;
   document.getElementById('redaction-badge').style.display=rc>0?'inline-block':'none';
 }
-
 function updateButtons(){
   var hasDoc=docContent.innerHTML.trim().length>0;
   var trc=docContent.querySelectorAll('.rx').length;
   var irc=0;imgStore._m.forEach(function(v){irc+=v.length});
   var hasRed=(trc+irc)>0;
-  var hasHist=undoStack.length>0;
   var hasImgs=docContent.querySelectorAll('img').length>0;
-
   function sd(id,dis){var e=document.getElementById(id);if(e)e.disabled=dis}
   sd('btn-redact',!hasDoc);sd('btn-redact-m',!hasDoc);
   sd('btn-img-mode',!hasImgs);sd('btn-img-mode-m',!hasImgs);
-  sd('mb-image',!hasImgs);
   sd('btn-clear',!hasRed);
   sd('btn-export',!hasDoc);sd('btn-export-m',!hasDoc);
-  sd('btn-undo',!hasHist);sd('btn-undo-m',!hasHist);
-
+  sd('btn-undo',!undoStack.length);sd('btn-undo-m',!undoStack.length);
   var vis=hasDoc?'inline-flex':'none';
   document.getElementById('btn-import-new').style.display=vis;
   document.getElementById('btn-import-new-m').style.display=vis;
-  var sep=document.getElementById('sep1');
-  if(sep)sep.style.display=hasDoc?'block':'none';
 }
 
-/* ─────────────────────────────────────────
-   FLOATING PILL
-───────────────────────────────────────── */
+/* ── Floating pill ── */
 function showFloat(rect){
   if(imageMode)return;
   floatPill.style.display='flex';
@@ -865,7 +717,6 @@ function showFloat(rect){
   floatPill.style.left=(rect.left+rect.width/2)+'px';
 }
 function hideFloat(){floatPill.style.display='none'}
-
 document.addEventListener('selectionchange',function(){
   clearTimeout(window._sti);
   window._sti=setTimeout(function(){
@@ -881,130 +732,93 @@ floatPill.addEventListener('mousedown',function(e){e.preventDefault()});
 floatPill.addEventListener('click',redactSelection);
 floatPill.addEventListener('touchend',function(e){e.preventDefault();redactSelection()});
 
-/* ─────────────────────────────────────────
-   COPY INTERCEPTION
-   Clipboard output always uses █ for redacted spans.
-───────────────────────────────────────── */
+/* ── Copy interception ── */
 document.addEventListener('copy',function(e){
   var sel=window.getSelection();
   if(!sel||!sel.rangeCount)return;
   var range=sel.getRangeAt(0);
   if(!docContent.contains(range.commonAncestorContainer))return;
-  var frag=range.cloneContents();
   var safe='';
   (function walk(node){
     if(node.nodeType===Node.TEXT_NODE){safe+=node.textContent;return}
     if(node.nodeType===Node.ELEMENT_NODE&&node.classList.contains('rx')){
-      var id=parseInt(node.dataset.id,10);
-      safe+='█'.repeat(Math.max(1,store.get(id).length));
-      return;
+      safe+='█'.repeat(Math.max(1,store.get(parseInt(node.dataset.id,10)).length));return;
     }
     node.childNodes.forEach(walk);
-  })(frag);
+  })(range.cloneContents());
   if(safe){e.clipboardData.setData('text/plain',safe);e.preventDefault()}
 });
 
-/* ─────────────────────────────────────────
-   EXPORT
-───────────────────────────────────────── */
-function buildTextExport(mode){
-  /* Clone the doc tree; replace .rx spans with placeholder */
+/* ── Export ── */
+function buildExportClone(mode){
   var clone=docContent.cloneNode(true);
   clone.querySelectorAll('.rx').forEach(function(span){
     var id=parseInt(span.dataset.id,10);
-    var orig=store.get(id);
-    var len=orig.length;
-    var replacement;
-    if(mode==='blocks')replacement='█'.repeat(len);
-    else if(mode==='label')replacement='[REDACTED]';
-    else if(mode==='blank')replacement='_'.repeat(len);
-    else replacement='';
-    span.parentNode.replaceChild(document.createTextNode(replacement),span);
+    var len=store.get(id).length;
+    var rep=mode==='blocks'?'█'.repeat(len)
+           :mode==='label'?'[REDACTED]'
+           :mode==='blank'?'_'.repeat(len):'';
+    span.parentNode.replaceChild(document.createTextNode(rep),span);
   });
   return clone;
 }
 
 async function flattenImages(clone){
-  /* For each img-wrap: paint image then paint black rects onto offscreen canvas */
   var wraps=clone.querySelectorAll('.img-wrap');
   for(var i=0;i<wraps.length;i++){
     var wrap=wraps[i];
     var img=wrap.querySelector('img');
     var canvas=wrap.querySelector('.img-canvas');
     if(!img)continue;
-
     var id=canvas?parseInt(canvas.dataset.imgid,10):-1;
     var rects=id>=0?imgStore.get(id):[];
-
-    /* Remove canvas overlay from export clone */
     if(canvas)canvas.parentNode.removeChild(canvas);
-
     if(!rects.length)continue;
-
-    /* Draw on offscreen canvas */
     var oc=document.createElement('canvas');
     oc.width=img.naturalWidth||img.width||300;
     oc.height=img.naturalHeight||img.height||200;
     var ctx=oc.getContext('2d');
-
-    /* Draw original image */
     ctx.drawImage(img,0,0,oc.width,oc.height);
-
-    /* Paint redaction rects in solid black */
     ctx.fillStyle='#000000';
     rects.forEach(function(r){
       ctx.fillRect(
-        Math.round(r.x*oc.width),
-        Math.round(r.y*oc.height),
-        Math.round(r.w*oc.width),
-        Math.round(r.h*oc.height)
+        Math.round(r.x*oc.width),Math.round(r.y*oc.height),
+        Math.round(r.w*oc.width),Math.round(r.h*oc.height)
       );
     });
-
-    /* Replace img src with flattened data URL */
     img.src=oc.toDataURL('image/png');
     img.removeAttribute('crossorigin');
   }
-  return clone;
 }
 
 async function showPreview(mode){
   pendingMode=mode;
   exportDialog.classList.remove('open');
-
-  /* Build a text preview (strip tags for plaintext preview) */
-  var clone=buildTextExport(mode);
-  /* Remove img-wraps and canvases from preview text */
-  clone.querySelectorAll('.img-wrap,.img-canvas').forEach(function(el){el.parentNode&&el.parentNode.removeChild(el)});
-  var raw=clone.textContent||clone.innerText||'';
+  var clone=buildExportClone(mode);
+  clone.querySelectorAll('.img-wrap,.img-canvas').forEach(function(el){
+    if(el.parentNode)el.parentNode.removeChild(el);
+  });
+  var raw=clone.textContent||'';
   var limit=5000;
   document.getElementById('preview-text').textContent=
     raw.length>limit?raw.slice(0,limit)+'\n\n[…preview truncated]':raw;
-
   var trc=docContent.querySelectorAll('.rx').length;
   var irc=0;imgStore._m.forEach(function(v){irc+=v.length});
   var total=trc+irc;
   var parts=[];
-  if(trc>0)parts.push(trc+' text section'+(trc===1?'':'s'));
-  if(irc>0)parts.push(irc+' image region'+(irc===1?'':'s'));
+  if(trc)parts.push(trc+' text section'+(trc===1?'':'s'));
+  if(irc)parts.push(irc+' image region'+(irc===1?'':'s'));
   document.getElementById('preview-sub').textContent=
-    total>0
-      ?(parts.join(' and ')+' redacted. Verify then download.')
-      :'No redactions. Export contains the full original.';
-
+    total>0?(parts.join(' and ')+' redacted. Verify then download.')
+           :'No redactions applied. Export contains the full original.';
   previewDialog.classList.add('open');
 }
 
 async function confirmExport(){
   if(!pendingMode)return;
-
-  var clone=buildTextExport(pendingMode);
+  var clone=buildExportClone(pendingMode);
   await flattenImages(clone);
-
-  /* Scrub text store */
   docContent.querySelectorAll('.rx').forEach(function(s){store.del(parseInt(s.dataset.id,10))});
-
-  /* Build self-contained HTML */
   var html='<!DOCTYPE html><html><head><meta charset="UTF-8">'
     +'<style>body{max-width:780px;margin:40px auto;padding:0 32px;'
     +'font:14px/1.85 Georgia,serif;color:#1a1a1a}'
@@ -1013,218 +827,157 @@ async function confirmExport(){
     +'td,th{border:1px solid #ccc;padding:7px 10px}'
     +'th{background:#f0eeea}'
     +'</style></head><body>'
-
-```
-+clone.innerHTML
-+'</body></html>';
-```
-
-var blob=new Blob([html],{type:‘text/html;charset=utf-8’});
-var url=URL.createObjectURL(blob);
-var a=document.createElement(‘a’);
-a.href=url;
-a.download=docFileName.replace(/.[^.]+$/,’’)+’ redacted.html’;
-document.body.appendChild(a);a.click();document.body.removeChild(a);
-setTimeout(function(){URL.revokeObjectURL(url)},1000);
-
-pendingMode=null;
-previewDialog.classList.remove(‘open’);
+    +clone.innerHTML+'</body></html>';
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download=docFileName.replace(/\.[^.]+$/,'')+' redacted.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  pendingMode=null;
+  previewDialog.classList.remove('open');
 }
 
-/* ─────────────────────────────────────────
-LOAD DOCUMENT
-───────────────────────────────────────── */
+/* ── Load ── */
 function loadRich(html,filename){
-store.clear();imgStore.clear();
-undoStack=[];nextImgId=0;rxIdCounter=0;
-docFileName=filename||‘document.html’;
-docNameEl.textContent=docFileName;
-docIsRich=true;
-docContent.innerHTML=html;
-docContent.className=’’;
-importScreen.style.display=‘none’;
-editorScreen.style.display=‘flex’;
-setImageMode(false);
-initCanvases();
-updateStats();
-updateButtons();
-hintText.textContent=‘Select text → press R or click Redact text.’;
+  store.clear();imgStore.clear();
+  undoStack=[];nextImgId=0;rxIdCounter=0;
+  docFileName=filename||'document.html';
+  docNameEl.textContent=docFileName;
+  docContent.className='rich';
+  docContent.innerHTML=html;
+  importScreen.style.display='none';
+  editorScreen.style.display='flex';
+  setImageMode(false);
+  initCanvases();
+  updateStats();updateButtons();
 }
-
 function loadPlain(text,filename){
-store.clear();imgStore.clear();
-undoStack=[];nextImgId=0;rxIdCounter=0;
-docFileName=filename||‘document.txt’;
-docNameEl.textContent=docFileName;
-docIsRich=false;
-var pre=document.createElement(‘span’);
-pre.className=‘plain-text’;
-pre.textContent=text;
-docContent.innerHTML=’’;
-docContent.appendChild(pre);
-importScreen.style.display=‘none’;
-editorScreen.style.display=‘flex’;
-setImageMode(false);
-updateStats();
-updateButtons();
-hintText.textContent=‘Select text → press R or click Redact text.’;
+  store.clear();imgStore.clear();
+  undoStack=[];nextImgId=0;rxIdCounter=0;
+  docFileName=filename||'document.txt';
+  docNameEl.textContent=docFileName;
+  docContent.className='';
+  docContent.textContent=text;
+  importScreen.style.display='none';
+  editorScreen.style.display='flex';
+  setImageMode(false);
+  updateStats();updateButtons();
 }
-
 async function loadFile(file){
-var ext=file.name.split(’.’).pop().toLowerCase();
-
-if(ext===‘docx’){
-if(!window.mammoth){alert(‘mammoth.js not loaded — please check your connection.’);return}
-try{
-var buf=await file.arrayBuffer();
-var result=await mammoth.convertToHtml(
-{arrayBuffer:buf},
-{convertImage:mammoth.images.imgElement(function(image){
-return image.read(‘base64’).then(function(base64){
-return{src:‘data:’+image.contentType+’;base64,’+base64};
-});
-})}
-);
-loadRich(result.value,file.name);
-}catch(err){alert(’Could not read DOCX: ’+err.message)}
-return;
+  var ext=file.name.split('.').pop().toLowerCase();
+  if(ext==='docx'){
+    if(!window.mammoth){alert('mammoth.js not loaded — check your connection.');return}
+    try{
+      var buf=await file.arrayBuffer();
+      var result=await mammoth.convertToHtml(
+        {arrayBuffer:buf},
+        {convertImage:mammoth.images.imgElement(function(image){
+          return image.read('base64').then(function(b64){
+            return{src:'data:'+image.contentType+';base64,'+b64};
+          });
+        })}
+      );
+      loadRich(result.value,file.name);
+    }catch(err){alert('Could not read DOCX: '+err.message)}
+    return;
+  }
+  if(ext==='pdf'){
+    if(!window.pdfjsLib){alert('pdf.js not loaded — check your connection.');return}
+    try{
+      var buf2=await file.arrayBuffer();
+      var pdf=await pdfjsLib.getDocument({data:buf2}).promise;
+      var out='';
+      for(var i=1;i<=pdf.numPages;i++){
+        var page=await pdf.getPage(i);
+        var content=await page.getTextContent();
+        out+=content.items.map(function(item){return item.str}).join(' ')+'\n\n';
+      }
+      loadPlain(out.trim(),file.name);
+    }catch(err){alert('Could not read PDF: '+err.message)}
+    return;
+  }
+  var reader=new FileReader();
+  reader.onload=function(e){loadPlain(e.target.result,file.name)};
+  reader.onerror=function(){alert('Could not read file.')};
+  reader.readAsText(file);
 }
-
-if(ext===‘pdf’){
-if(!window.pdfjsLib){alert(‘pdf.js not loaded — please check your connection.’);return}
-try{
-var buf2=await file.arrayBuffer();
-var pdf=await pdfjsLib.getDocument({data:buf2}).promise;
-var out=’’;
-for(var i=1;i<=pdf.numPages;i++){
-var page=await pdf.getPage(i);
-var content=await page.getTextContent();
-out+=content.items.map(function(item){return item.str}).join(’ ‘)+’\n\n’;
-}
-loadPlain(out.trim(),file.name);
-}catch(err){alert(’Could not read PDF: ’+err.message)}
-return;
-}
-
-/* Plain text formats */
-var reader=new FileReader();
-reader.onload=function(e){loadPlain(e.target.result,file.name)};
-reader.onerror=function(){alert(‘Could not read file.’)};
-reader.readAsText(file);
-}
-
-/* ─────────────────────────────────────────
-RETURN TO IMPORT
-───────────────────────────────────────── */
 function returnToImport(){
-store.clear();imgStore.clear();
-undoStack=[];docContent.innerHTML=’’;
-imageMode=false;
-importScreen.style.display=’’;
-editorScreen.style.display=‘none’;
-docNameEl.textContent=‘No document loaded’;
-document.getElementById(‘btn-import-new’).style.display=‘none’;
-document.getElementById(‘btn-import-new-m’).style.display=‘none’;
+  store.clear();imgStore.clear();
+  undoStack=[];docContent.innerHTML='';docContent.className='';
+  imageMode=false;
+  importScreen.style.display='';
+  editorScreen.style.display='none';
+  docNameEl.textContent='No document loaded';
+  document.getElementById('btn-import-new').style.display='none';
+  document.getElementById('btn-import-new-m').style.display='none';
+  updateStats();updateButtons();
+}
+
+/* ── Event wiring ── */
+document.getElementById('btn-browse').addEventListener('click',function(e){
+  e.stopPropagation();document.getElementById('file-input').click();
+});
+document.getElementById('file-input').addEventListener('change',function(){
+  if(this.files.length){loadFile(this.files[0]);this.value=''}
+});
+var dropCard=document.getElementById('drop-card');
+dropCard.addEventListener('dragover',function(e){e.preventDefault();dropCard.classList.add('drag-over')});
+dropCard.addEventListener('dragleave',function(){dropCard.classList.remove('drag-over')});
+dropCard.addEventListener('drop',function(e){
+  e.preventDefault();dropCard.classList.remove('drag-over');
+  if(e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0]);
+});
+document.addEventListener('dragover',function(e){e.preventDefault()});
+document.addEventListener('drop',function(e){
+  if(importScreen.style.display==='none'&&e.dataTransfer.files.length){
+    e.preventDefault();loadFile(e.dataTransfer.files[0]);
+  }
+});
+document.getElementById('btn-load-paste').addEventListener('click',function(){
+  var t=document.getElementById('paste-area').value.trim();
+  if(t){loadPlain(t,'pasted-document.txt');document.getElementById('paste-area').value=''}
+});
+document.getElementById('btn-redact').addEventListener('click',redactSelection);
+document.getElementById('btn-redact-m').addEventListener('click',redactSelection);
+document.getElementById('btn-img-mode').addEventListener('click',function(){setImageMode(!imageMode)});
+document.getElementById('btn-img-mode-m').addEventListener('click',function(){setImageMode(!imageMode)});
+document.getElementById('btn-undo').addEventListener('click',undo);
+document.getElementById('btn-undo-m').addEventListener('click',undo);
+document.getElementById('btn-clear').addEventListener('click',clearAll);
+document.getElementById('btn-import-new').addEventListener('click',returnToImport);
+document.getElementById('btn-import-new-m').addEventListener('click',returnToImport);
+document.getElementById('btn-export').addEventListener('click',function(){exportDialog.classList.add('open')});
+document.getElementById('btn-export-m').addEventListener('click',function(){exportDialog.classList.add('open')});
+['eo-blocks','eo-label','eo-blank','eo-remove'].forEach(function(id){
+  var mode=id.replace('eo-','');
+  var el=document.getElementById(id);
+  el.addEventListener('click',function(){showPreview(mode)});
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showPreview(mode)}});
+});
+document.getElementById('btn-cancel-export').addEventListener('click',function(){exportDialog.classList.remove('open')});
+exportDialog.addEventListener('click',function(e){if(e.target===exportDialog)exportDialog.classList.remove('open')});
+document.getElementById('btn-back-export').addEventListener('click',function(){
+  previewDialog.classList.remove('open');exportDialog.classList.add('open');
+});
+document.getElementById('btn-confirm-export').addEventListener('click',confirmExport);
+previewDialog.addEventListener('click',function(e){if(e.target===previewDialog)previewDialog.classList.remove('open')});
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement.tagName;
+  if(tag==='TEXTAREA'||tag==='INPUT')return;
+  if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();return}
+  if(e.key==='Escape'){
+    exportDialog.classList.remove('open');previewDialog.classList.remove('open');
+    hideFloat();if(imageMode)setImageMode(false);return;
+  }
+  if(e.key==='r'&&!e.ctrlKey&&!e.metaKey&&!imageMode){
+    var sel=window.getSelection();
+    if(sel&&!sel.isCollapsed){e.preventDefault();redactSelection()}
+  }
+});
 updateStats();updateButtons();
-}
-
-/* ─────────────────────────────────────────
-EVENT WIRING
-───────────────────────────────────────── */
-document.getElementById(‘btn-browse’).addEventListener(‘click’,function(e){
-e.stopPropagation();document.getElementById(‘file-input’).click();
-});
-document.getElementById(‘file-input’).addEventListener(‘change’,function(){
-if(this.files.length){loadFile(this.files[0]);this.value=’’}
-});
-
-var dropCard=document.getElementById(‘drop-card’);
-dropCard.addEventListener(‘dragover’,function(e){e.preventDefault();dropCard.classList.add(‘drag-over’)});
-dropCard.addEventListener(‘dragleave’,function(){dropCard.classList.remove(‘drag-over’)});
-dropCard.addEventListener(‘drop’,function(e){
-e.preventDefault();dropCard.classList.remove(‘drag-over’);
-if(e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0]);
-});
-document.addEventListener(‘dragover’,function(e){e.preventDefault()});
-document.addEventListener(‘drop’,function(e){
-if(importScreen.style.display===‘none’&&e.dataTransfer.files.length){
-e.preventDefault();loadFile(e.dataTransfer.files[0]);
-}
-});
-
-document.getElementById(‘btn-load-paste’).addEventListener(‘click’,function(){
-var t=document.getElementById(‘paste-area’).value.trim();
-if(t){loadPlain(t,‘pasted-document.txt’);document.getElementById(‘paste-area’).value=’’}
-});
-
-/* Redact text */
-document.getElementById(‘btn-redact’).addEventListener(‘click’,redactSelection);
-document.getElementById(‘btn-redact-m’).addEventListener(‘click’,redactSelection);
-
-/* Image mode toggle */
-function toggleImg(){setImageMode(!imageMode)}
-document.getElementById(‘btn-img-mode’).addEventListener(‘click’,toggleImg);
-document.getElementById(‘btn-img-mode-m’).addEventListener(‘click’,toggleImg);
-document.getElementById(‘mb-text’).addEventListener(‘click’,function(){setImageMode(false)});
-document.getElementById(‘mb-image’).addEventListener(‘click’,function(){setImageMode(true)});
-
-/* Undo */
-document.getElementById(‘btn-undo’).addEventListener(‘click’,undo);
-document.getElementById(‘btn-undo-m’).addEventListener(‘click’,undo);
-
-/* Clear */
-document.getElementById(‘btn-clear’).addEventListener(‘click’,clearAll);
-
-/* Import new */
-document.getElementById(‘btn-import-new’).addEventListener(‘click’,returnToImport);
-document.getElementById(‘btn-import-new-m’).addEventListener(‘click’,returnToImport);
-
-/* Export open */
-document.getElementById(‘btn-export’).addEventListener(‘click’,function(){exportDialog.classList.add(‘open’)});
-document.getElementById(‘btn-export-m’).addEventListener(‘click’,function(){exportDialog.classList.add(‘open’)});
-
-/* Export format */
-[‘eo-blocks’,‘eo-label’,‘eo-blank’,‘eo-remove’].forEach(function(id){
-var mode=id.replace(‘eo-’,’’);
-var el=document.getElementById(id);
-el.addEventListener(‘click’,function(){showPreview(mode)});
-el.addEventListener(‘keydown’,function(e){
-if(e.key===‘Enter’||e.key===’ ’){e.preventDefault();showPreview(mode)}
-});
-});
-document.getElementById(‘btn-cancel-export’).addEventListener(‘click’,function(){exportDialog.classList.remove(‘open’)});
-exportDialog.addEventListener(‘click’,function(e){if(e.target===exportDialog)exportDialog.classList.remove(‘open’)});
-
-/* Preview */
-document.getElementById(‘btn-back-export’).addEventListener(‘click’,function(){
-previewDialog.classList.remove(‘open’);exportDialog.classList.add(‘open’);
-});
-document.getElementById(‘btn-confirm-export’).addEventListener(‘click’,confirmExport);
-previewDialog.addEventListener(‘click’,function(e){if(e.target===previewDialog)previewDialog.classList.remove(‘open’)});
-
-/* Keyboard */
-document.addEventListener(‘keydown’,function(e){
-var tag=document.activeElement.tagName;
-if(tag===‘TEXTAREA’||tag===‘INPUT’)return;
-if((e.ctrlKey||e.metaKey)&&e.key===‘z’){e.preventDefault();undo();return}
-if(e.key===‘Escape’){
-exportDialog.classList.remove(‘open’);
-previewDialog.classList.remove(‘open’);
-hideFloat();
-if(imageMode)setImageMode(false);
-return;
-}
-if(e.key===‘r’&&!e.ctrlKey&&!e.metaKey&&!imageMode){
-var sel=window.getSelection();
-if(sel&&!sel.isCollapsed){e.preventDefault();redactSelection()}
-}
-});
-
-/* Init */
-updateStats();
-updateButtons();
 })();
-
 </script>
 </body>
 </html>
