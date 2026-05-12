@@ -1,332 +1,274 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Redact — Secure Document Redaction</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0b0b0d;
-  --panel:#111114;
-  --panel2:#16161a;
-  --border:#222228;
-  --border2:#2e2e36;
-  --text:#dddde2;
-  --muted:#5a5a66;
-  --muted2:#888896;
-  --doc:#f8f7f4;
-  --doc-text:#101010;
-  --red:#c0392b;
-  --red-h:#a93226;
+  --bg:#0b0b0d;--panel:#111114;--border:#222228;--border2:#2e2e36;
+  --text:#dddde2;--muted:#5a5a66;--muted2:#888896;
+  --doc:#f8f7f4;--doc-text:#1a1a1a;
+  --red:#c0392b;--red-h:#a93226;--accent:#2a6dd9;--green:#1e7e4a;
 }
-html,body{height:100%;overflow:hidden}
-body{
-  background:var(--bg);
-  color:var(--text);
+html,body{height:100%;overflow:hidden;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
-  display:flex;
-  flex-direction:column;
-  user-select:none;
-}
+  display:flex;flex-direction:column;user-select:none;-webkit-user-select:none}
 
-/* ── Top bar ── */
-#topbar{
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
-  height:50px;
-  display:flex;
-  align-items:center;
-  padding:0 18px;
-  gap:14px;
-  flex-shrink:0;
-}
-#logo{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.18em;
-  color:#fff;
-  text-transform:uppercase;
-}
-#doc-name{
-  flex:1;
-  font-size:12px;
-  color:var(--muted2);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.btn{
-  background:transparent;
-  border:1px solid var(--border2);
-  color:var(--text);
-  font:12px/1 inherit;
-  padding:6px 14px;
-  border-radius:6px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  transition:background .12s,border-color .12s;
-  white-space:nowrap;
-  flex-shrink:0;
-}
+/* ── Topbar ── */
+#topbar{background:var(–panel);border-bottom:1px solid var(–border);
+height:50px;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;
+overflow-x:auto;overflow-y:hidden}
+#topbar::-webkit-scrollbar{display:none}
+#logo{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;
+letter-spacing:.18em;color:#fff;text-transform:uppercase;flex-shrink:0}
+#doc-name{flex:1;font-size:12px;color:var(–muted2);overflow:hidden;
+text-overflow:ellipsis;white-space:nowrap;min-width:30px}
+.sep{width:1px;height:20px;background:var(–border2);flex-shrink:0}
+
+.btn{background:transparent;border:1px solid var(–border2);color:var(–text);
+font:12px/1 inherit;padding:0 13px;height:32px;border-radius:6px;cursor:pointer;
+display:inline-flex;align-items:center;justify-content:center;gap:5px;
+transition:background .12s,border-color .12s;white-space:nowrap;flex-shrink:0;
+-webkit-user-select:none;user-select:none;touch-action:manipulation}
 .btn:hover{background:#1d1d24;border-color:#3a3a46}
-.btn:active{background:#222228}
-.btn-red{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
-.btn-red:hover{background:var(--red-h);border-color:var(--red-h)}
-.btn-red:disabled,.btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
-.btn svg{flex-shrink:0}
+.btn:active{background:#222228;transform:scale(.97)}
+.btn-red{background:var(–red);border-color:var(–red);color:#fff;font-weight:600}
+.btn-red:hover{background:var(–red-h);border-color:var(–red-h)}
+.btn-green{background:var(–green);border-color:var(–green);color:#fff;font-weight:600}
+.btn-green:hover{background:#176040;border-color:#176040}
+.btn-red:disabled,.btn:disabled{opacity:.32;cursor:not-allowed;pointer-events:none}
+.btn svg{flex-shrink:0;pointer-events:none}
+.btn.active{background:#1a2a3a;border-color:var(–accent);color:#6ab0f5}
 
 /* ── Main ── */
-#main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+#main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
 
-/* ── Import ── */
-#import-screen{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow-y:auto;
-  padding:40px 20px;
-}
-#drop-card{
-  width:500px;
-  max-width:100%;
-  background:var(--panel);
-  border:1.5px dashed var(--border2);
-  border-radius:16px;
-  padding:52px 44px 40px;
-  text-align:center;
-  transition:border-color .2s,background .2s;
-}
+/* ── Import screen ── */
+#import-screen{flex:1;display:flex;align-items:center;justify-content:center;
+overflow-y:auto;padding:24px 16px}
+#drop-card{width:520px;max-width:100%;background:var(–panel);
+border:1.5px dashed var(–border2);border-radius:16px;padding:40px 28px 32px;
+text-align:center;transition:border-color .2s,background .2s}
 #drop-card.drag-over{border-color:#4a4a58;background:#141418}
-#drop-icon{margin:0 auto 22px;opacity:.45}
+.import-icon{margin:0 auto 20px;opacity:.4;pointer-events:none}
 #drop-card h2{font-size:17px;font-weight:500;margin-bottom:8px;color:#eee}
-#drop-card .sub{font-size:13px;color:var(--muted2);line-height:1.65;margin-bottom:26px}
+#drop-card .sub{font-size:13px;color:var(–muted2);line-height:1.65;margin-bottom:24px}
 #drop-card .sub em{font-style:normal;color:#3a7bd5}
-.file-types{font-size:10.5px;letter-spacing:.08em;color:var(--muted);margin-top:18px;text-transform:uppercase}
-.or-divider{
-  display:flex;align-items:center;gap:12px;
-  margin:22px 0;color:var(--muted);font-size:11px;
-}
-.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-#paste-area{
-  width:100%;
-  background:#0f0f12;
-  border:1px solid var(--border);
-  border-radius:8px;
-  color:var(--text);
-  font:12px/1.6 'Courier New',Courier,monospace;
-  padding:12px 14px;
-  resize:none;
-  height:96px;
-  outline:none;
-}
+.file-types{font-size:10.5px;letter-spacing:.08em;color:var(–muted);
+margin-top:14px;text-transform:uppercase}
+.or-div{display:flex;align-items:center;gap:12px;margin:20px 0;
+color:var(–muted);font-size:11px}
+.or-div::before,.or-div::after{content:’’;flex:1;height:1px;background:var(–border)}
+#paste-area{width:100%;background:#0f0f12;border:1px solid var(–border);
+border-radius:8px;color:var(–text);font:12px/1.6 ‘Courier New’,Courier,monospace;
+padding:12px 14px;resize:none;height:88px;outline:none;
+-webkit-user-select:text;user-select:text}
 #paste-area:focus{border-color:#3a3a48}
-#paste-area::placeholder{color:var(--muted)}
-#btn-load-paste{margin:12px auto 0}
+#paste-area::placeholder{color:var(–muted)}
+.gdocs-tip{background:#0f1f35;border:1px solid #1a3a5c;border-radius:8px;
+padding:11px 14px;margin-top:18px;text-align:left;font-size:11.5px;
+color:#7aabde;line-height:1.65}
+.gdocs-tip strong{color:#a0c8f0;display:block;margin-bottom:3px}
 
-/* ── Editor ── */
+/* ── Editor screen ── */
 #editor-screen{display:none;flex:1;flex-direction:column;overflow:hidden}
 
-#hint-bar{
-  background:#0f0f12;
-  border-bottom:1px solid var(--border);
-  height:34px;
-  display:flex;
-  align-items:center;
-  padding:0 20px;
-  gap:24px;
-  flex-shrink:0;
-}
-.hint{font-size:11px;color:var(--muted2);display:flex;align-items:center;gap:5px}
-kbd{
-  background:#1c1c22;
-  border:1px solid var(--border2);
-  border-radius:3px;
-  padding:1px 6px;
-  font:10.5px/1.4 inherit;
-  color:#aaa;
-}
+#mode-bar{background:#0d0d10;border-bottom:1px solid var(–border);
+height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0}
+.mode-label{font-size:11px;color:var(–muted);margin-right:4px}
+#hint-text{font-size:11px;color:var(–muted2);margin-left:8px}
+kbd{background:#1c1c22;border:1px solid var(–border2);border-radius:3px;
+padding:1px 6px;font:10.5px/1.4 inherit;color:#aaa}
 
-#doc-scroll{
-  flex:1;
-  overflow-y:auto;
-  display:flex;
-  justify-content:center;
-  background:#131316;
-  padding:52px 24px 64px;
-}
-#doc-scroll::-webkit-scrollbar{width:6px}
-#doc-scroll::-webkit-scrollbar-track{background:transparent}
+/* ── Doc scroll ── */
+#doc-scroll{flex:1;overflow-y:auto;display:flex;justify-content:center;
+background:#131316;padding:36px 16px 80px;-webkit-overflow-scrolling:touch}
+#doc-scroll::-webkit-scrollbar{width:5px}
 #doc-scroll::-webkit-scrollbar-thumb{background:#222228;border-radius:3px}
 
-#doc-paper{
-  width:740px;
-  max-width:100%;
-  background:var(--doc);
-  border-radius:3px;
-  padding:76px 88px;
-  min-height:580px;
-  box-shadow:0 4px 60px rgba(0,0,0,.6);
-}
-#doc-content{
-  font:13.5px/1.9 'Courier New',Courier,monospace;
-  color:var(--doc-text);
-  white-space:pre-wrap;
-  word-break:break-word;
-  user-select:text;
-  cursor:text;
-  outline:none;
-}
-#doc-content .rx{
-  background:#000;
-  color:#000;
-  border-radius:2px;
-  cursor:pointer;
-  position:relative;
-  padding:1px 0;
-  display:inline;
-  transition:background .1s;
-}
-#doc-content .rx:hover{background:#111}
-#doc-content .rx::after{
-  content:'Remove redaction';
-  position:absolute;
-  bottom:calc(100% + 5px);
-  left:50%;
-  transform:translateX(-50%);
-  font-size:10px;
-  background:#222228;
-  color:#ccc;
-  padding:3px 8px;
-  border-radius:4px;
-  white-space:nowrap;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .15s;
-  z-index:20;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-#doc-content .rx:hover::after{opacity:1}
+#doc-paper{width:min(780px,100%);background:var(–doc);border-radius:3px;
+padding:60px 72px;min-height:480px;box-shadow:0 4px 60px rgba(0,0,0,.6);
+position:relative}
+
+/* ── Rich document styles (mammoth output lives here) ── */
+#doc-content{color:var(–doc-text);outline:none;
+-webkit-user-select:text;user-select:text;cursor:text}
+#doc-content p{font:14px/1.85 Georgia,‘Times New Roman’,serif;margin-bottom:10px}
+#doc-content h1{font:bold 26px/1.3 Georgia,serif;margin:22px 0 10px}
+#doc-content h2{font:bold 20px/1.3 Georgia,serif;margin:18px 0 8px}
+#doc-content h3{font:bold 16px/1.3 Georgia,serif;margin:14px 0 6px}
+#doc-content ul,#doc-content ol{margin:8px 0 10px 24px;font:14px/1.8 Georgia,serif}
+#doc-content table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px}
+#doc-content td,#doc-content th{border:1px solid #ccc;padding:7px 10px;text-align:left}
+#doc-content th{background:#e8e6e0;font-weight:600}
+#doc-content .plain-text{font:13.5px/1.9 ‘Courier New’,Courier,monospace}
+
+/* ── Text redaction spans ── */
+#doc-content .rx{background:#101010;color:#101010;border-radius:2px;
+cursor:pointer;display:inline;padding:1px 0;position:relative}
+#doc-content .rx:hover{background:#000}
+#rx-tip{position:fixed;background:#1e1e26;color:#b0b0be;font-size:10px;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:4px 9px;
+border-radius:5px;pointer-events:none;white-space:nowrap;z-index:300;
+opacity:0;transition:opacity .15s;border:1px solid #2e2e3a}
+#rx-tip.visible{opacity:1}
+
+/* ── Image redaction ── */
+.img-wrap{position:relative;display:inline-block;max-width:100%;margin:8px 0;
+line-height:0}
+.img-wrap img{display:block;max-width:100%;height:auto;border-radius:2px}
+.img-canvas{position:absolute;top:0;left:0;width:100%;height:100%;
+border-radius:2px;touch-action:none}
+.img-canvas.active{cursor:crosshair}
+.img-canvas.inactive{cursor:default;pointer-events:none}
+
+/* Image mode indicator */
+#img-mode-hint{background:#0f1f35;border:1px solid #1a3a5c;
+border-radius:6px;padding:5px 12px;font-size:11px;color:#7aabde;
+display:none;align-items:center;gap:6px;margin-left:8px}
+#img-mode-hint.visible{display:flex}
+
+/* ── Floating redact pill ── */
+#float-redact{position:fixed;z-index:500;background:var(–red);color:#fff;
+font:600 13px/1 -apple-system,BlinkMacSystemFont,sans-serif;
+padding:0 20px;height:38px;border-radius:22px;display:none;
+align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.55);
+cursor:pointer;border:none;-webkit-user-select:none;user-select:none;
+touch-action:manipulation;transform:translateX(-50%);transition:transform .1s}
+#float-redact:active{transform:translateX(-50%) scale(.95)}
+
+/* ── Mobile bottom bar ── */
+#mobile-bar{display:none;background:var(–panel);border-top:1px solid var(–border);
+padding:8px 12px env(safe-area-inset-bottom,8px);gap:8px;
+flex-wrap:wrap;justify-content:center;flex-shrink:0}
+#mobile-bar .btn{height:42px;font-size:12px;flex:1;max-width:140px}
 
 /* ── Status bar ── */
-#statusbar{
-  background:var(--panel);
-  border-top:1px solid var(--border);
-  height:30px;
-  display:flex;
-  align-items:center;
-  padding:0 18px;
-  gap:22px;
-  font-size:11px;
-  color:var(--muted);
-  flex-shrink:0;
-}
-.stat{display:flex;align-items:center;gap:5px}
-.stat b{color:var(--muted2);font-weight:500}
-#redaction-count-badge{
-  background:var(--red);
-  color:#fff;
-  font-size:10px;
-  font-weight:700;
-  padding:1px 7px;
-  border-radius:10px;
-  display:none;
-}
-#security-note{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  color:#383842;
-  font-size:10.5px;
-}
+#statusbar{background:var(–panel);border-top:1px solid var(–border);
+height:28px;display:flex;align-items:center;padding:0 14px;gap:16px;
+font-size:10.5px;color:var(–muted);flex-shrink:0;overflow:hidden}
+.stat{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.stat b{color:var(–muted2);font-weight:500}
+#redaction-badge{background:var(–red);color:#fff;font-size:9.5px;font-weight:700;
+padding:1px 6px;border-radius:9px;display:none}
+#security-note{margin-left:auto;display:flex;align-items:center;gap:4px;
+color:#2e2e3e;font-size:10px;white-space:nowrap}
 
-/* ── Hidden file input ── */
+/* ── Hidden inputs ── */
 #file-input{display:none}
 
 /* ── Export dialog ── */
-#export-dialog{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:200;
-  align-items:center;
-  justify-content:center;
-}
+#export-dialog{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);
+z-index:400;align-items:flex-end;justify-content:center}
 #export-dialog.open{display:flex}
-#export-panel{
-  background:#17171c;
-  border:1px solid #2c2c36;
-  border-radius:14px;
-  padding:28px 28px 24px;
-  width:400px;
-  max-width:92vw;
-}
+#export-panel{background:#17171c;border:1px solid #2c2c36;border-radius:14px 14px 0 0;
+padding:24px 20px 32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
 #export-panel h3{font-size:15px;font-weight:500;margin-bottom:4px}
-#export-panel .ep-sub{font-size:12px;color:var(--muted2);margin-bottom:18px;line-height:1.5}
-.eo{
-  background:#111115;
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:14px 16px;
-  margin-bottom:9px;
-  cursor:pointer;
-  transition:border-color .15s,background .15s;
+.ep-sub{font-size:12px;color:var(–muted2);margin-bottom:18px;line-height:1.55}
+.eo{background:#111115;border:1px solid var(–border);border-radius:9px;
+padding:13px 15px;margin-bottom:8px;cursor:pointer;
+transition:border-color .15s,background .15s;
+min-height:44px;display:flex;flex-direction:column;justify-content:center;
+touch-action:manipulation}
+.eo:hover,.eo:focus{border-color:#383844;background:#141418;outline:none}
+.eo:active{background:#1a1a22}
+.eo strong{display:block;font-size:13px;font-weight:500;margin-bottom:3px;
+font-family:‘Courier New’,Courier,monospace;letter-spacing:.02em}
+.eo span{font-size:11px;color:var(–muted2)}
+.ep-footer{display:flex;justify-content:flex-end;margin-top:12px}
+
+/* ── Preview dialog ── */
+#preview-dialog{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);
+z-index:410;align-items:center;justify-content:center;padding:16px}
+#preview-dialog.open{display:flex}
+#preview-panel{background:#17171c;border:1px solid #2c2c36;border-radius:14px;
+width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+#preview-header{padding:18px 20px 14px;border-bottom:1px solid var(–border);flex-shrink:0}
+#preview-header h3{font-size:14px;font-weight:500}
+#preview-header p{font-size:11px;color:var(–muted2);margin-top:3px}
+#preview-body{flex:1;overflow-y:auto;padding:16px 20px;-webkit-overflow-scrolling:touch}
+#preview-text{font:12px/1.8 ‘Courier New’,Courier,monospace;
+color:var(–text);white-space:pre-wrap;word-break:break-word}
+#preview-footer{padding:12px 20px;border-top:1px solid var(–border);
+display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
+#preview-footer .btn{height:38px}
+.btn-confirm{background:var(–accent);border-color:var(–accent);color:#fff;font-weight:600}
+.btn-confirm:hover{background:#1f5cbf;border-color:#1f5cbf}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+#doc-paper{padding:24px 16px}
+.hide-mobile{display:none!important}
+#mode-bar{display:none}
+#mobile-bar{display:flex}
+#statusbar .stat:nth-child(2){display:none}
 }
-.eo:hover{border-color:#383844;background:#141418}
-.eo strong{display:block;font-size:13px;font-weight:500;margin-bottom:3px;font-family:'Courier New',Courier,monospace;letter-spacing:.02em}
-.eo span{font-size:11px;color:var(--muted2)}
-.ep-footer{display:flex;justify-content:flex-end;margin-top:14px}
+@media(min-width:601px){
+#export-panel{border-radius:14px}
+}
 </style>
+
 </head>
 <body>
 
-<!-- ── Top bar ── -->
+<button id="float-redact" aria-label="Redact selected text">
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="11" height="5" rx="1" fill="currentColor"/></svg>
+  Redact
+</button>
+<div id="rx-tip">Click to restore</div>
+
+<!-- ── Topbar ── -->
+
 <div id="topbar">
   <div id="logo">
-    <svg id="drop-icon-logo" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2.5" y="1.5" width="11" height="15" rx="1.5" stroke="#888" stroke-width="1.1"/>
-      <path d="M10.5 1.5v4h4" stroke="#888" stroke-width="1.1" stroke-linecap="round"/>
-      <rect x="4.5" y="7" width="7" height="1.5" rx=".75" fill="#000" fill-opacity=".85"/>
-      <rect x="4.5" y="9.5" width="5" height="1.5" rx=".75" fill="#000" fill-opacity=".7"/>
-      <rect x="4.5" y="12" width="6" height="1.5" rx=".75" fill="#555"/>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="2" y="1" width="10" height="14" rx="1.5" stroke="#888" stroke-width="1.1"/>
+      <path d="M9 1v4h4" stroke="#888" stroke-width="1.1" stroke-linecap="round"/>
+      <rect x="4" y="6.5" width="6" height="1.4" rx=".7" fill="#000" fill-opacity=".9"/>
+      <rect x="4" y="9"   width="4.5" height="1.4" rx=".7" fill="#000" fill-opacity=".75"/>
+      <rect x="4" y="11.5" width="5.5" height="1.4" rx=".7" fill="#555"/>
     </svg>
     Redact
   </div>
   <span id="doc-name">No document loaded</span>
-  <button class="btn" id="btn-import-new" style="display:none">
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-    Import new
+  <button class="btn hide-mobile" id="btn-import-new" style="display:none">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    New
   </button>
-  <button class="btn btn-red" id="btn-redact" disabled>
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="11" height="5" rx="1" fill="currentColor"/></svg>
-    Redact selection
+  <div class="sep hide-mobile" id="sep1" style="display:none"></div>
+  <button class="btn btn-red hide-mobile" id="btn-redact" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3.5" width="10" height="5" rx="1" fill="currentColor"/></svg>
+    Redact text
   </button>
-  <button class="btn" id="btn-undo" disabled>
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6a4.5 4.5 0 1 1 .9 2.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3.5V6.5H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <button class="btn hide-mobile" id="btn-img-mode" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" fill="currentColor"/><path d="M1 8l3-2.5 2.5 2 2-1.5 2.5 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Image redact
+  </button>
+  <div class="sep hide-mobile"></div>
+  <button class="btn hide-mobile" id="btn-undo" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 5.5a4 4 0 1 1 .8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3v3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Undo
   </button>
-  <button class="btn" id="btn-clear" disabled>Clear all</button>
-  <button class="btn" id="btn-export" disabled>
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7M3.5 5.5l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+  <button class="btn hide-mobile" id="btn-clear" disabled>Clear all</button>
+  <button class="btn hide-mobile" id="btn-export" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
     Export
   </button>
 </div>
 
 <!-- ── Main ── -->
+
 <div id="main">
 
   <!-- Import screen -->
+
   <div id="import-screen">
     <div id="drop-card" tabindex="0">
-      <svg id="drop-icon" width="44" height="52" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="import-icon" width="44" height="52" viewBox="0 0 44 52" fill="none">
         <rect x="2" y="2" width="30" height="40" rx="3" stroke="#888" stroke-width="1.5"/>
         <path d="M22 2v12h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
         <rect x="6" y="20" width="16" height="2.5" rx="1.25" fill="#444"/>
@@ -336,407 +278,953 @@ kbd{
         <path d="M33 37v8M29.5 41l3.5-4 3.5 4" stroke="#777" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <h2>Drop a document here</h2>
-      <p class="sub">Drag and drop a file to start redacting.<br><em>All processing is local — nothing leaves your browser.</em></p>
-      <button class="btn" id="btn-browse" style="margin:0 auto">Browse files…</button>
-      <div class="file-types">Supported formats: TXT · MD · CSV · PDF</div>
-      <div class="or-divider">or paste text directly</div>
-      <textarea id="paste-area" placeholder="Paste the document text here…" spellcheck="false"></textarea>
-      <button class="btn" id="btn-load-paste" style="margin:12px auto 0">Load pasted text</button>
+      <p class="sub">Supports Google Docs exports, Word files, PDFs, and plain text.<br><em>All processing is local — nothing is ever uploaded.</em></p>
+      <button class="btn" id="btn-browse" style="margin:0 auto;height:42px;padding:0 22px;font-size:13px">Browse files…</button>
+      <div class="file-types">Supported: DOCX · TXT · MD · CSV · PDF</div>
+      <div class="gdocs-tip">
+        <strong>Using Google Docs?</strong>
+        In Google Docs: File → Download → Microsoft Word (.docx) — then import that file here. Images and formatting are fully preserved.
+      </div>
+      <div class="or-div">or paste plain text</div>
+      <textarea id="paste-area" placeholder="Paste document text here…" spellcheck="false"></textarea>
+      <button class="btn" id="btn-load-paste" style="margin:12px auto 0;height:42px;padding:0 22px;font-size:13px">Load pasted text</button>
     </div>
   </div>
 
   <!-- Editor screen -->
+
   <div id="editor-screen">
-    <div id="hint-bar">
-      <span class="hint">Select text → press <kbd>R</kbd> or click Redact</span>
-      <span class="hint">Click a redacted block to remove it</span>
-      <span class="hint"><kbd>Ctrl Z</kbd> to undo</span>
-    </div>
-    <div id="doc-scroll">
-      <div id="doc-paper">
-        <div id="doc-content" tabindex="0" aria-label="Document content, select text to redact"></div>
+    <div id="mode-bar">
+      <span class="mode-label">Mode:</span>
+      <button class="btn active" id="mb-text" style="height:26px;font-size:11px;padding:0 10px">Text</button>
+      <button class="btn"        id="mb-image" style="height:26px;font-size:11px;padding:0 10px" disabled>Image</button>
+      <span id="hint-text"></span>
+      <div id="img-mode-hint">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width=".9"/><path d="M5.5 4.5v3M5.5 3.5v.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Draw rectangles over images to redact them
       </div>
     </div>
-  </div>
 
+```
+<div id="doc-scroll">
+  <div id="doc-paper">
+    <div id="doc-content" tabindex="0" role="region" aria-label="Document. Select text and tap Redact."></div>
+  </div>
 </div>
 
-<!-- ── Status bar ── -->
+<!-- Mobile bottom bar -->
+<div id="mobile-bar">
+  <button class="btn btn-red" id="btn-redact-m" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="3.5" width="10" height="5" rx="1" fill="currentColor"/></svg>
+    Redact
+  </button>
+  <button class="btn" id="btn-img-mode-m" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="4" cy="5" r="1" fill="currentColor"/><path d="M1 8l3-2.5 2.5 2 2-1.5 2.5 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Image
+  </button>
+  <button class="btn" id="btn-undo-m" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 5.5a4 4 0 1 1 .8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 3v3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Undo
+  </button>
+  <button class="btn" id="btn-export-m" disabled>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    Export
+  </button>
+  <button class="btn" id="btn-import-new-m" style="display:none">New</button>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- Status bar -->
+
 <div id="statusbar">
   <div class="stat">Words: <b id="stat-words">—</b></div>
-  <div class="stat">Characters: <b id="stat-chars">—</b></div>
-  <div class="stat">Redactions: <b id="stat-reds">—</b> <span id="redaction-count-badge">ACTIVE</span></div>
+  <div class="stat">Chars: <b id="stat-chars">—</b></div>
+  <div class="stat">Redactions: <b id="stat-reds">—</b> <span id="redaction-badge">ACTIVE</span></div>
   <span id="security-note">
-    <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1L1.5 3v3.5C1.5 8.9 3.3 10.4 5.5 11c2.2-.6 4-2.1 4-4.5V3L5.5 1z" stroke="currentColor" stroke-width=".9"/></svg>
-    All processing is local
+    <svg width="10" height="11" viewBox="0 0 10 11" fill="none"><path d="M5 1L1.5 3v3C1.5 8.3 3 9.7 5 10.3 7 9.7 8.5 8.3 8.5 6V3L5 1z" stroke="currentColor" stroke-width=".9"/></svg>
+    Local only
   </span>
 </div>
 
-<!-- Hidden file input -->
-<input type="file" id="file-input" accept=".txt,.md,.csv,.pdf">
+<input type="file" id="file-input" accept=".txt,.md,.csv,.pdf,.docx">
 
-<!-- Export dialog -->
-<div id="export-dialog" role="dialog" aria-modal="true" aria-label="Export options">
+<!-- Export format dialog -->
+
+<div id="export-dialog" role="dialog" aria-modal="true" aria-label="Export format">
   <div id="export-panel">
     <h3>Export redacted document</h3>
-    <p class="ep-sub">Choose how redacted sections are represented in the exported file. The source document is never modified.</p>
+    <p class="ep-sub">Choose how redacted text sections appear. Image redactions are always permanently painted over. A preview is shown before download.</p>
     <div class="eo" id="eo-blocks" role="button" tabindex="0">
       <strong>████████████</strong>
-      <span>Solid block characters — the standard redaction format used in legal and government documents</span>
+      <span>Block characters — standard legal and government format</span>
     </div>
     <div class="eo" id="eo-label" role="button" tabindex="0">
       <strong>[REDACTED]</strong>
-      <span>Labelled placeholder — clearly identifies redacted sections by name</span>
+      <span>Labelled placeholder — makes redacted sections explicit</span>
     </div>
     <div class="eo" id="eo-blank" role="button" tabindex="0">
       <strong>___________</strong>
-      <span>Blank underscores — preserves approximate length, useful for form-style documents</span>
+      <span>Blank underscores — preserves approximate original length</span>
     </div>
     <div class="eo" id="eo-remove" role="button" tabindex="0">
       <strong>Remove entirely</strong>
-      <span>Redacted content is deleted — text flows together without any placeholder</span>
+      <span>Redacted content deleted — surrounding text flows together</span>
     </div>
-    <div class="ep-footer">
-      <button class="btn" id="btn-cancel-export">Cancel</button>
+    <div class="ep-footer"><button class="btn" id="btn-cancel-export">Cancel</button></div>
+  </div>
+</div>
+
+<!-- Preview dialog -->
+
+<div id="preview-dialog" role="dialog" aria-modal="true" aria-label="Export preview">
+  <div id="preview-panel">
+    <div id="preview-header">
+      <h3>Verify before downloading</h3>
+      <p id="preview-sub"></p>
+    </div>
+    <div id="preview-body"><div id="preview-text"></div></div>
+    <div id="preview-footer">
+      <button class="btn" id="btn-back-export">Back</button>
+      <button class="btn btn-confirm" id="btn-confirm-export">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 5l2.5 3 2.5-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Download
+      </button>
     </div>
   </div>
 </div>
 
+<!-- Libraries -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
 <script>
-(function () {
+/* ═══════════ PART 2: JS inserted below ═══════════ */
+(function(){
 'use strict';
 
-if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
+/* ─────────────────────────────────────────
+   PDF.js worker
+───────────────────────────────────────── */
+if(window.pdfjsLib){
+  pdfjsLib.GlobalWorkerOptions.workerSrc=
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-/* ── State ── */
-let segments = [];
-let nextId = 0;
-let history = [];
-let docFileName = 'document.txt';
+/* ─────────────────────────────────────────
+   SECURE STORE
+   Redacted text values live only here.
+   DOM spans hold █ placeholders only.
+───────────────────────────────────────── */
+var store={
+  _m:new Map(),
+  set:function(id,v){this._m.set(id,String(v))},
+  get:function(id){return this._m.get(id)||''},
+  del:function(id){this._m.delete(id)},
+  clear:function(){this._m.clear()},
+  clone:function(){return new Map(this._m)}
+};
 
-function seg(text, redacted) {
-  return { id: nextId++, text, redacted: !!redacted };
+/* ─────────────────────────────────────────
+   IMAGE REDACTION STORE
+   Per image: array of {x,y,w,h} in 0-1 normalised coords
+───────────────────────────────────────── */
+var imgStore={
+  _m:new Map(),
+  get:function(id){if(!this._m.has(id))this._m.set(id,[]);return this._m.get(id)},
+  add:function(id,rect){this.get(id).push(rect)},
+  del:function(id){this._m.delete(id)},
+  clear:function(){this._m.clear()},
+  clone:function(){
+    var c=new Map();
+    this._m.forEach(function(v,k){c.set(k,v.map(function(r){return{x:r.x,y:r.y,w:r.w,h:r.h}}))});
+    return c;
+  },
+  restore:function(cloned){this._m=cloned}
+};
+
+/* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+var docFileName='document.txt';
+var docIsRich=false;
+var imageMode=false;
+var pendingMode=null;
+var nextImgId=0;
+
+/* Undo: stack of {html, storeClone, imgStoreClone} */
+var undoStack=[];
+
+/* ─────────────────────────────────────────
+   DOM REFS
+───────────────────────────────────────── */
+var docContent   =document.getElementById('doc-content');
+var docNameEl    =document.getElementById('doc-name');
+var importScreen =document.getElementById('import-screen');
+var editorScreen =document.getElementById('editor-screen');
+var exportDialog =document.getElementById('export-dialog');
+var previewDialog=document.getElementById('preview-dialog');
+var floatPill    =document.getElementById('float-redact');
+var rxTip        =document.getElementById('rx-tip');
+var hintText     =document.getElementById('hint-text');
+var imgModeHint  =document.getElementById('img-mode-hint');
+
+/* ─────────────────────────────────────────
+   UNDO
+───────────────────────────────────────── */
+function snapshot(){
+  undoStack.push({
+    html:docContent.innerHTML,
+    st:store.clone(),
+    ist:imgStore.clone()
+  });
+  if(undoStack.length>60)undoStack.shift();
+  updateButtons();
 }
 
-/* ── DOM refs ── */
-const $  = id => document.getElementById(id);
-const importScreen  = $('import-screen');
-const editorScreen  = $('editor-screen');
-const docContent    = $('doc-content');
-const docNameEl     = $('doc-name');
-const btnRedact     = $('btn-redact');
-const btnUndo       = $('btn-undo');
-const btnClear      = $('btn-clear');
-const btnExport     = $('btn-export');
-const btnImportNew  = $('btn-import-new');
-const exportDialog  = $('export-dialog');
-const pasteArea     = $('paste-area');
-const dropCard      = $('drop-card');
-
-/* ── Segment helpers ── */
-
-function fullText() {
-  return segments.map(s => s.text).join('');
-}
-
-function mergeAdjacent(segs) {
-  const out = [];
-  for (const s of segs) {
-    if (out.length && !out[out.length - 1].redacted && !s.redacted) {
-      const prev = out[out.length - 1];
-      out[out.length - 1] = { id: prev.id, text: prev.text + s.text, redacted: false };
-    } else {
-      out.push({ ...s });
-    }
-  }
-  return out;
-}
-
-/* ── Render ── */
-
-function render() {
-  segments = mergeAdjacent(segments);
-  const frag = document.createDocumentFragment();
-
-  for (const s of segments) {
-    if (s.redacted) {
-      const span = document.createElement('span');
-      span.className = 'rx';
-      span.dataset.id = String(s.id);
-      span.textContent = s.text;
-      span.addEventListener('click', () => unreact(s.id));
-      frag.appendChild(span);
-    } else {
-      frag.appendChild(document.createTextNode(s.text));
-    }
-  }
-
-  docContent.innerHTML = '';
-  docContent.appendChild(frag);
+function undo(){
+  if(!undoStack.length)return;
+  var prev=undoStack.pop();
+  docContent.innerHTML=prev.html;
+  store._m=prev.st;
+  imgStore.restore(prev.ist);
+  initSpanListeners();
+  initCanvases();
   updateStats();
+  updateButtons();
 }
 
-/* ── Stats ── */
-
-function updateStats() {
-  const text = fullText();
-  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const charCount = text.length;
-  const redCount  = segments.filter(s => s.redacted).length;
-
-  $('stat-words').textContent = wordCount.toLocaleString();
-  $('stat-chars').textContent = charCount.toLocaleString();
-  $('stat-reds').textContent  = redCount;
-
-  const badge = $('redaction-count-badge');
-  badge.style.display = redCount > 0 ? 'inline-block' : 'none';
-
-  const hasDoc = segments.length > 0;
-  const hasRed = redCount > 0;
-  const hasHist = history.length > 0;
-
-  btnRedact.disabled   = !hasDoc;
-  btnClear.disabled    = !hasRed;
-  btnExport.disabled   = !hasDoc;
-  btnUndo.disabled     = !hasHist;
-  btnImportNew.style.display = hasDoc ? 'inline-flex' : 'none';
+/* ─────────────────────────────────────────
+   SPAN LISTENERS (text redaction)
+───────────────────────────────────────── */
+function initSpanListeners(){
+  var spans=docContent.querySelectorAll('.rx');
+  spans.forEach(function(span){
+    span.removeEventListener('click',onSpanClick);
+    span.removeEventListener('mouseenter',onSpanEnter);
+    span.removeEventListener('mouseleave',onSpanLeave);
+    span.addEventListener('click',onSpanClick);
+    span.addEventListener('mouseenter',onSpanEnter);
+    span.addEventListener('mouseleave',onSpanLeave);
+  });
 }
 
-/* ── History ── */
+function onSpanClick(e){
+  if(imageMode)return;
+  var id=parseInt(e.currentTarget.dataset.id,10);
+  restoreSpan(id);
+}
+function onSpanEnter(e){
+  if(imageMode)return;
+  rxTip.classList.add('visible');
+  var r=e.target.getBoundingClientRect();
+  rxTip.style.left=(r.left+r.width/2-rxTip.offsetWidth/2)+'px';
+  rxTip.style.top=(r.top-rxTip.offsetHeight-6)+'px';
+}
+function onSpanLeave(){rxTip.classList.remove('visible')}
 
-function snapshot() {
-  history.push(segments.map(s => ({ ...s })));
-  if (history.length > 80) history.shift();
+function restoreSpan(id){
+  snapshot();
+  var original=store.get(id);
+  store.del(id);
+  var span=docContent.querySelector('.rx[data-id="'+id+'"]');
+  if(!span)return;
+  var text=document.createTextNode(original);
+  span.parentNode.replaceChild(text,span);
+  updateStats();
+  updateButtons();
 }
 
-function undo() {
-  if (!history.length) return;
-  segments = history.pop();
-  render();
-}
+/* ─────────────────────────────────────────
+   TEXT SELECTION → REDACTION
+   Uses TreeWalker to find text nodes in selection,
+   splits them and wraps selected portion in .rx span.
+───────────────────────────────────────── */
+var rxIdCounter=0;
 
-/* ── Selection → character offsets ── */
+function redactSelection(){
+  var sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.rangeCount)return;
+  var range=sel.getRangeAt(0);
+  if(!docContent.contains(range.commonAncestorContainer))return;
 
-function charOffsetAt(anchor, offset) {
-  const r = document.createRange();
-  r.setStart(docContent, 0);
-  r.setEnd(anchor, offset);
-  return r.toString().length;
-}
-
-function getSelectionOffsets() {
-  const sel = window.getSelection();
-  if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
-  const range = sel.getRangeAt(0);
-  if (!docContent.contains(range.commonAncestorContainer)) return null;
-
-  const start = charOffsetAt(range.startContainer, range.startOffset);
-  const end   = charOffsetAt(range.endContainer,   range.endOffset);
-
-  return start < end ? { start, end } : null;
-}
-
-/* ── Redaction ── */
-
-function applyRedaction(start, end) {
-  if (start >= end) return;
   snapshot();
 
-  let offset = 0;
-  const next = [];
+  /* Collect all text nodes that intersect the range */
+  var walker=document.createTreeWalker(
+    range.commonAncestorContainer===docContent
+      ?docContent
+      :range.commonAncestorContainer.nodeType===Node.TEXT_NODE
+        ?range.commonAncestorContainer.parentNode
+        :range.commonAncestorContainer,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
 
-  for (const s of segments) {
-    const sStart = offset;
-    const sEnd   = offset + s.text.length;
-    offset += s.text.length;
-
-    if (sEnd <= start || sStart >= end) {
-      next.push(s);
-      continue;
-    }
-
-    const cutA = Math.max(0, start - sStart);
-    const cutB = Math.min(s.text.length, end - sStart);
-
-    if (cutA > 0)                    next.push(seg(s.text.slice(0, cutA), s.redacted));
-                                     next.push(seg(s.text.slice(cutA, cutB), true));
-    if (cutB < s.text.length)        next.push(seg(s.text.slice(cutB), s.redacted));
+  var textNodes=[];
+  var node;
+  while((node=walker.nextNode())){
+    if(range.intersectsNode(node))textNodes.push(node);
   }
 
-  segments = next;
-  window.getSelection().removeAllRanges();
-  render();
+  if(!textNodes.length){sel.removeAllRanges();return}
+
+  textNodes.forEach(function(tn){
+    var start=0,end=tn.length;
+    if(tn===range.startContainer)start=range.startOffset;
+    if(tn===range.endContainer)  end=range.endOffset;
+    if(start>=end)return;
+
+    var before=tn.textContent.slice(0,start);
+    var middle=tn.textContent.slice(start,end);
+    var after =tn.textContent.slice(end);
+
+    if(!middle)return;
+
+    var id=rxIdCounter++;
+    store.set(id,middle);
+
+    var span=document.createElement('span');
+    span.className='rx';
+    span.dataset.id=String(id);
+    span.textContent='█'.repeat(Math.max(1,middle.length));
+    span.setAttribute('aria-label','Redacted. Click to restore.');
+    span.addEventListener('click',onSpanClick);
+    span.addEventListener('mouseenter',onSpanEnter);
+    span.addEventListener('mouseleave',onSpanLeave);
+
+    var frag=document.createDocumentFragment();
+    if(before)frag.appendChild(document.createTextNode(before));
+    frag.appendChild(span);
+    if(after) frag.appendChild(document.createTextNode(after));
+
+    tn.parentNode.replaceChild(frag,tn);
+  });
+
+  sel.removeAllRanges();
+  hideFloat();
+  updateStats();
+  updateButtons();
 }
 
-function redactSelection() {
-  const offsets = getSelectionOffsets();
-  if (offsets) applyRedaction(offsets.start, offsets.end);
-}
-
-function unreact(segId) {
+/* ─────────────────────────────────────────
+   CLEAR ALL TEXT REDACTIONS
+───────────────────────────────────────── */
+function clearAllText(){
+  var spans=Array.from(docContent.querySelectorAll('.rx'));
+  if(!spans.length)return;
   snapshot();
-  segments = segments.map(s => s.id === segId ? { ...s, redacted: false } : s);
-  render();
+  spans.forEach(function(span){
+    var id=parseInt(span.dataset.id,10);
+    var original=store.get(id);
+    store.del(id);
+    span.parentNode.replaceChild(document.createTextNode(original),span);
+  });
+  updateStats();
+  updateButtons();
 }
 
-function clearAll() {
-  if (!segments.some(s => s.redacted)) return;
+function clearAllImages(){
+  var canvases=docContent.querySelectorAll('.img-canvas');
+  canvases.forEach(function(c){
+    var ctx=c.getContext('2d');
+    ctx.clearRect(0,0,c.width,c.height);
+    var id=parseInt(c.dataset.imgid,10);
+    imgStore.del(id);
+  });
+  updateStats();
+  updateButtons();
+}
+
+function clearAll(){
+  var hasText=docContent.querySelectorAll('.rx').length>0;
+  var hasImg=false;
+  imgStore._m.forEach(function(v){if(v.length)hasImg=true});
+  if(!hasText&&!hasImg)return;
   snapshot();
-  segments = segments.map(s => ({ ...s, redacted: false }));
-  render();
+  clearAllText();
+  clearAllImages();
 }
 
-/* ── Load ── */
+/* ─────────────────────────────────────────
+   IMAGE MODE & CANVAS REDACTION
+───────────────────────────────────────── */
+function setImageMode(on){
+  imageMode=on;
 
-function loadText(text, filename) {
-  docFileName = filename || 'document.txt';
-  docNameEl.textContent = docFileName;
-  segments = [seg(text, false)];
-  history  = [];
-  importScreen.style.display = 'none';
-  editorScreen.style.display = 'flex';
-  render();
+  document.getElementById('mb-text').classList.toggle('active',!on);
+  document.getElementById('mb-image').classList.toggle('active',on);
+  document.getElementById('btn-img-mode').classList.toggle('active',on);
+  document.getElementById('btn-img-mode-m').classList.toggle('active',on);
+
+  imgModeHint.classList.toggle('visible',on);
+
+  /* Toggle canvas pointer events */
+  var canvases=docContent.querySelectorAll('.img-canvas');
+  canvases.forEach(function(c){
+    c.classList.toggle('active',on);
+    c.classList.toggle('inactive',!on);
+  });
+
+  if(on){
+    hintText.textContent='Draw rectangles over image areas to redact them. Click Text to return.';
+    floatPill.style.display='none';
+  }else{
+    hintText.textContent='Select text → press R or click Redact text.';
+  }
 }
 
-async function loadFile(file) {
-  const ext = file.name.split('.').pop().toLowerCase();
+function initCanvases(){
+  /* Wrap all bare imgs that aren't already wrapped */
+  var imgs=docContent.querySelectorAll('img');
+  imgs.forEach(function(img){
+    if(img.parentNode.classList&&img.parentNode.classList.contains('img-wrap'))return;
+    var wrap=document.createElement('div');
+    wrap.className='img-wrap';
+    img.parentNode.insertBefore(wrap,img);
+    wrap.appendChild(img);
 
-  if (ext === 'pdf') {
-    if (!window.pdfjsLib) {
-      alert('PDF support requires an internet connection to load the PDF rendering library.');
+    var canvas=document.createElement('canvas');
+    canvas.className='img-canvas inactive';
+    var id=nextImgId++;
+    canvas.dataset.imgid=String(id);
+    wrap.appendChild(canvas);
+
+    img.addEventListener('load',function(){syncCanvasSize(canvas,img)});
+    if(img.complete)syncCanvasSize(canvas,img);
+
+    attachCanvasDraw(canvas,img,id);
+  });
+
+  /* For already-wrapped canvases after undo, re-attach */
+  var canvases=docContent.querySelectorAll('.img-canvas');
+  canvases.forEach(function(canvas){
+    var wrap=canvas.parentNode;
+    var img=wrap.querySelector('img');
+    if(!img)return;
+    var id=parseInt(canvas.dataset.imgid,10);
+    if(img.complete)syncCanvasSize(canvas,img);
+    redrawCanvas(canvas,id);
+    attachCanvasDraw(canvas,img,id);
+  });
+}
+
+function syncCanvasSize(canvas,img){
+  canvas.width=img.naturalWidth||img.offsetWidth||300;
+  canvas.height=img.naturalHeight||img.offsetHeight||200;
+  var id=parseInt(canvas.dataset.imgid,10);
+  redrawCanvas(canvas,id);
+}
+
+function redrawCanvas(canvas,id){
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  var rects=imgStore.get(id);
+  ctx.fillStyle='#000';
+  rects.forEach(function(r){
+    ctx.fillRect(
+      Math.round(r.x*canvas.width),
+      Math.round(r.y*canvas.height),
+      Math.round(r.w*canvas.width),
+      Math.round(r.h*canvas.height)
+    );
+  });
+}
+
+function attachCanvasDraw(canvas,img,id){
+  /* Remove old listeners by cloning */
+  var fresh=canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(fresh,canvas);
+  canvas=fresh;
+
+  var drawing=false;
+  var startX=0,startY=0;
+
+  function getPos(e){
+    var rect=canvas.getBoundingClientRect();
+    var cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+    var cy=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
+    return{
+      x:cx/rect.width,
+      y:cy/rect.height
+    };
+  }
+
+  function startDraw(e){
+    if(!imageMode)return;
+    e.preventDefault();
+    var pos=getPos(e);
+    startX=pos.x;startY=pos.y;
+    drawing=true;
+  }
+  function moveDraw(e){
+    if(!drawing||!imageMode)return;
+    e.preventDefault();
+    var pos=getPos(e);
+    var ctx=canvas.getContext('2d');
+    redrawCanvas(canvas,id);
+    ctx.fillStyle='rgba(0,0,0,0.7)';
+    var rx=Math.min(startX,pos.x);
+    var ry=Math.min(startY,pos.y);
+    var rw=Math.abs(pos.x-startX);
+    var rh=Math.abs(pos.y-startY);
+    ctx.fillRect(
+      Math.round(rx*canvas.width),
+      Math.round(ry*canvas.height),
+      Math.round(rw*canvas.width),
+      Math.round(rh*canvas.height)
+    );
+  }
+  function endDraw(e){
+    if(!drawing||!imageMode)return;
+    drawing=false;
+    var pos=e.changedTouches
+      ?{x:(e.changedTouches[0].clientX-canvas.getBoundingClientRect().left)/canvas.getBoundingClientRect().width,
+        y:(e.changedTouches[0].clientY-canvas.getBoundingClientRect().top)/canvas.getBoundingClientRect().height}
+      :getPos(e);
+    var rx=Math.min(startX,pos.x);
+    var ry=Math.min(startY,pos.y);
+    var rw=Math.abs(pos.x-startX);
+    var rh=Math.abs(pos.y-startY);
+    if(rw<0.005||rh<0.005)return;
+    snapshot();
+    imgStore.add(id,{x:rx,y:ry,w:rw,h:rh});
+    redrawCanvas(canvas,id);
+    updateStats();
+    updateButtons();
+  }
+
+  canvas.addEventListener('mousedown',startDraw);
+  canvas.addEventListener('mousemove',moveDraw);
+  canvas.addEventListener('mouseup',endDraw);
+  canvas.addEventListener('touchstart',startDraw,{passive:false});
+  canvas.addEventListener('touchmove',moveDraw,{passive:false});
+  canvas.addEventListener('touchend',endDraw);
+}
+
+/* ─────────────────────────────────────────
+   STATS & BUTTONS
+───────────────────────────────────────── */
+function updateStats(){
+  var walker=document.createTreeWalker(docContent,NodeFilter.SHOW_TEXT,null,false);
+  var text='';
+  var n;
+  while((n=walker.nextNode()))text+=n.textContent;
+  /* Add back redacted lengths from store */
+  docContent.querySelectorAll('.rx').forEach(function(s){
+    text+=store.get(parseInt(s.dataset.id,10));
+  });
+  var wc=text.trim()?text.trim().split(/\s+/).length:0;
+
+  document.getElementById('stat-words').textContent=wc.toLocaleString();
+  document.getElementById('stat-chars').textContent=text.length.toLocaleString();
+
+  var trc=docContent.querySelectorAll('.rx').length;
+  var irc=0;
+  imgStore._m.forEach(function(v){irc+=v.length});
+  var rc=trc+irc;
+  document.getElementById('stat-reds').textContent=rc;
+  document.getElementById('redaction-badge').style.display=rc>0?'inline-block':'none';
+}
+
+function updateButtons(){
+  var hasDoc=docContent.innerHTML.trim().length>0;
+  var trc=docContent.querySelectorAll('.rx').length;
+  var irc=0;imgStore._m.forEach(function(v){irc+=v.length});
+  var hasRed=(trc+irc)>0;
+  var hasHist=undoStack.length>0;
+  var hasImgs=docContent.querySelectorAll('img').length>0;
+
+  function sd(id,dis){var e=document.getElementById(id);if(e)e.disabled=dis}
+  sd('btn-redact',!hasDoc);sd('btn-redact-m',!hasDoc);
+  sd('btn-img-mode',!hasImgs);sd('btn-img-mode-m',!hasImgs);
+  sd('mb-image',!hasImgs);
+  sd('btn-clear',!hasRed);
+  sd('btn-export',!hasDoc);sd('btn-export-m',!hasDoc);
+  sd('btn-undo',!hasHist);sd('btn-undo-m',!hasHist);
+
+  var vis=hasDoc?'inline-flex':'none';
+  document.getElementById('btn-import-new').style.display=vis;
+  document.getElementById('btn-import-new-m').style.display=vis;
+  var sep=document.getElementById('sep1');
+  if(sep)sep.style.display=hasDoc?'block':'none';
+}
+
+/* ─────────────────────────────────────────
+   FLOATING PILL
+───────────────────────────────────────── */
+function showFloat(rect){
+  if(imageMode)return;
+  floatPill.style.display='flex';
+  floatPill.style.top=Math.max(56,rect.top+window.scrollY-50)+'px';
+  floatPill.style.left=(rect.left+rect.width/2)+'px';
+}
+function hideFloat(){floatPill.style.display='none'}
+
+document.addEventListener('selectionchange',function(){
+  clearTimeout(window._sti);
+  window._sti=setTimeout(function(){
+    if(imageMode){hideFloat();return}
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.rangeCount){hideFloat();return}
+    var r=sel.getRangeAt(0);
+    if(!docContent.contains(r.commonAncestorContainer)){hideFloat();return}
+    showFloat(r.getBoundingClientRect());
+  },80);
+});
+floatPill.addEventListener('mousedown',function(e){e.preventDefault()});
+floatPill.addEventListener('click',redactSelection);
+floatPill.addEventListener('touchend',function(e){e.preventDefault();redactSelection()});
+
+/* ─────────────────────────────────────────
+   COPY INTERCEPTION
+   Clipboard output always uses █ for redacted spans.
+───────────────────────────────────────── */
+document.addEventListener('copy',function(e){
+  var sel=window.getSelection();
+  if(!sel||!sel.rangeCount)return;
+  var range=sel.getRangeAt(0);
+  if(!docContent.contains(range.commonAncestorContainer))return;
+  var frag=range.cloneContents();
+  var safe='';
+  (function walk(node){
+    if(node.nodeType===Node.TEXT_NODE){safe+=node.textContent;return}
+    if(node.nodeType===Node.ELEMENT_NODE&&node.classList.contains('rx')){
+      var id=parseInt(node.dataset.id,10);
+      safe+='█'.repeat(Math.max(1,store.get(id).length));
       return;
     }
-    try {
-      const buf = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-      let out = '';
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page    = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        out += content.items.map(item => item.str).join(' ') + '\n\n';
-      }
-      loadText(out.trim(), file.name);
-    } catch (err) {
-      alert('Could not read PDF: ' + err.message);
-    }
-    return;
+    node.childNodes.forEach(walk);
+  })(frag);
+  if(safe){e.clipboardData.setData('text/plain',safe);e.preventDefault()}
+});
+
+/* ─────────────────────────────────────────
+   EXPORT
+───────────────────────────────────────── */
+function buildTextExport(mode){
+  /* Clone the doc tree; replace .rx spans with placeholder */
+  var clone=docContent.cloneNode(true);
+  clone.querySelectorAll('.rx').forEach(function(span){
+    var id=parseInt(span.dataset.id,10);
+    var orig=store.get(id);
+    var len=orig.length;
+    var replacement;
+    if(mode==='blocks')replacement='█'.repeat(len);
+    else if(mode==='label')replacement='[REDACTED]';
+    else if(mode==='blank')replacement='_'.repeat(len);
+    else replacement='';
+    span.parentNode.replaceChild(document.createTextNode(replacement),span);
+  });
+  return clone;
+}
+
+async function flattenImages(clone){
+  /* For each img-wrap: paint image then paint black rects onto offscreen canvas */
+  var wraps=clone.querySelectorAll('.img-wrap');
+  for(var i=0;i<wraps.length;i++){
+    var wrap=wraps[i];
+    var img=wrap.querySelector('img');
+    var canvas=wrap.querySelector('.img-canvas');
+    if(!img)continue;
+
+    var id=canvas?parseInt(canvas.dataset.imgid,10):-1;
+    var rects=id>=0?imgStore.get(id):[];
+
+    /* Remove canvas overlay from export clone */
+    if(canvas)canvas.parentNode.removeChild(canvas);
+
+    if(!rects.length)continue;
+
+    /* Draw on offscreen canvas */
+    var oc=document.createElement('canvas');
+    oc.width=img.naturalWidth||img.width||300;
+    oc.height=img.naturalHeight||img.height||200;
+    var ctx=oc.getContext('2d');
+
+    /* Draw original image */
+    ctx.drawImage(img,0,0,oc.width,oc.height);
+
+    /* Paint redaction rects in solid black */
+    ctx.fillStyle='#000000';
+    rects.forEach(function(r){
+      ctx.fillRect(
+        Math.round(r.x*oc.width),
+        Math.round(r.y*oc.height),
+        Math.round(r.w*oc.width),
+        Math.round(r.h*oc.height)
+      );
+    });
+
+    /* Replace img src with flattened data URL */
+    img.src=oc.toDataURL('image/png');
+    img.removeAttribute('crossorigin');
   }
-
-  const reader = new FileReader();
-  reader.onload  = e => loadText(e.target.result, file.name);
-  reader.onerror = () => alert('Could not read file.');
-  reader.readAsText(file);
+  return clone;
 }
 
-/* ── Export ── */
-
-function buildExport(mode) {
-  return segments.map(s => {
-    if (!s.redacted) return s.text;
-    const len = s.text.length;
-    if (mode === 'blocks') return '█'.repeat(len);
-    if (mode === 'label')  return '[REDACTED]';
-    if (mode === 'blank')  return '_'.repeat(len);
-    if (mode === 'remove') return '';
-    return '[REDACTED]';
-  }).join('');
-}
-
-function doExport(mode) {
-  const text = buildExport(mode);
-  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  const base = docFileName.replace(/\.[^.]+$/, '');
-  a.download = base + '_redacted.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+async function showPreview(mode){
+  pendingMode=mode;
   exportDialog.classList.remove('open');
+
+  /* Build a text preview (strip tags for plaintext preview) */
+  var clone=buildTextExport(mode);
+  /* Remove img-wraps and canvases from preview text */
+  clone.querySelectorAll('.img-wrap,.img-canvas').forEach(function(el){el.parentNode&&el.parentNode.removeChild(el)});
+  var raw=clone.textContent||clone.innerText||'';
+  var limit=5000;
+  document.getElementById('preview-text').textContent=
+    raw.length>limit?raw.slice(0,limit)+'\n\n[…preview truncated]':raw;
+
+  var trc=docContent.querySelectorAll('.rx').length;
+  var irc=0;imgStore._m.forEach(function(v){irc+=v.length});
+  var total=trc+irc;
+  var parts=[];
+  if(trc>0)parts.push(trc+' text section'+(trc===1?'':'s'));
+  if(irc>0)parts.push(irc+' image region'+(irc===1?'':'s'));
+  document.getElementById('preview-sub').textContent=
+    total>0
+      ?(parts.join(' and ')+' redacted. Verify then download.')
+      :'No redactions. Export contains the full original.';
+
+  previewDialog.classList.add('open');
 }
 
-/* ── Events ── */
+async function confirmExport(){
+  if(!pendingMode)return;
 
-$('btn-browse').addEventListener('click', e => {
-  e.stopPropagation();
-  $('file-input').click();
-});
+  var clone=buildTextExport(pendingMode);
+  await flattenImages(clone);
 
-$('file-input').addEventListener('change', function () {
-  if (this.files.length) { loadFile(this.files[0]); this.value = ''; }
-});
+  /* Scrub text store */
+  docContent.querySelectorAll('.rx').forEach(function(s){store.del(parseInt(s.dataset.id,10))});
 
-dropCard.addEventListener('dragover',  e => { e.preventDefault(); dropCard.classList.add('drag-over'); });
-dropCard.addEventListener('dragleave', ()  => dropCard.classList.remove('drag-over'));
-dropCard.addEventListener('drop', e => {
-  e.preventDefault();
-  dropCard.classList.remove('drag-over');
-  if (e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]);
-});
+  /* Build self-contained HTML */
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    +'<style>body{max-width:780px;margin:40px auto;padding:0 32px;'
+    +'font:14px/1.85 Georgia,serif;color:#1a1a1a}'
+    +'img{max-width:100%;height:auto}'
+    +'table{border-collapse:collapse;width:100%}'
+    +'td,th{border:1px solid #ccc;padding:7px 10px}'
+    +'th{background:#f0eeea}'
+    +'</style></head><body>'
 
-$('btn-load-paste').addEventListener('click', () => {
-  const text = pasteArea.value.trim();
-  if (text) { loadText(text, 'pasted-document.txt'); pasteArea.value = ''; }
-});
+```
++clone.innerHTML
++'</body></html>';
+```
 
-btnRedact.addEventListener('click', redactSelection);
-btnUndo.addEventListener('click',   undo);
-btnClear.addEventListener('click',  clearAll);
+var blob=new Blob([html],{type:‘text/html;charset=utf-8’});
+var url=URL.createObjectURL(blob);
+var a=document.createElement(‘a’);
+a.href=url;
+a.download=docFileName.replace(/.[^.]+$/,’’)+’ redacted.html’;
+document.body.appendChild(a);a.click();document.body.removeChild(a);
+setTimeout(function(){URL.revokeObjectURL(url)},1000);
 
-btnImportNew.addEventListener('click', () => {
-  importScreen.style.display = '';
-  editorScreen.style.display = 'none';
-  btnImportNew.style.display = 'none';
-  docNameEl.textContent = 'No document loaded';
-  segments = [];
-  history  = [];
-  updateStats();
-});
+pendingMode=null;
+previewDialog.classList.remove(‘open’);
+}
 
-btnExport.addEventListener('click', () => exportDialog.classList.add('open'));
-$('btn-cancel-export').addEventListener('click', () => exportDialog.classList.remove('open'));
-exportDialog.addEventListener('click', e => { if (e.target === exportDialog) exportDialog.classList.remove('open'); });
-
-$('eo-blocks').addEventListener('click', () => doExport('blocks'));
-$('eo-label') .addEventListener('click', () => doExport('label'));
-$('eo-blank') .addEventListener('click', () => doExport('blank'));
-$('eo-remove').addEventListener('click', () => doExport('remove'));
-
-document.addEventListener('keydown', e => {
-  const tag = document.activeElement.tagName;
-  if (tag === 'TEXTAREA' || tag === 'INPUT') return;
-
-  if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-    e.preventDefault();
-    undo();
-    return;
-  }
-  if (e.key === 'r' && !e.ctrlKey && !e.metaKey) {
-    const sel = window.getSelection();
-    if (sel && !sel.isCollapsed) { e.preventDefault(); redactSelection(); }
-  }
-  if (e.key === 'Escape') {
-    exportDialog.classList.remove('open');
-  }
-});
-
-/* Allow body-level drop when editor is open */
-document.addEventListener('dragover', e => e.preventDefault());
-document.addEventListener('drop', e => {
-  if (importScreen.style.display === 'none' && e.dataTransfer.files.length) {
-    e.preventDefault();
-    loadFile(e.dataTransfer.files[0]);
-  }
-});
-
+/* ─────────────────────────────────────────
+LOAD DOCUMENT
+───────────────────────────────────────── */
+function loadRich(html,filename){
+store.clear();imgStore.clear();
+undoStack=[];nextImgId=0;rxIdCounter=0;
+docFileName=filename||‘document.html’;
+docNameEl.textContent=docFileName;
+docIsRich=true;
+docContent.innerHTML=html;
+docContent.className=’’;
+importScreen.style.display=‘none’;
+editorScreen.style.display=‘flex’;
+setImageMode(false);
+initCanvases();
 updateStats();
+updateButtons();
+hintText.textContent=‘Select text → press R or click Redact text.’;
+}
+
+function loadPlain(text,filename){
+store.clear();imgStore.clear();
+undoStack=[];nextImgId=0;rxIdCounter=0;
+docFileName=filename||‘document.txt’;
+docNameEl.textContent=docFileName;
+docIsRich=false;
+var pre=document.createElement(‘span’);
+pre.className=‘plain-text’;
+pre.textContent=text;
+docContent.innerHTML=’’;
+docContent.appendChild(pre);
+importScreen.style.display=‘none’;
+editorScreen.style.display=‘flex’;
+setImageMode(false);
+updateStats();
+updateButtons();
+hintText.textContent=‘Select text → press R or click Redact text.’;
+}
+
+async function loadFile(file){
+var ext=file.name.split(’.’).pop().toLowerCase();
+
+if(ext===‘docx’){
+if(!window.mammoth){alert(‘mammoth.js not loaded — please check your connection.’);return}
+try{
+var buf=await file.arrayBuffer();
+var result=await mammoth.convertToHtml(
+{arrayBuffer:buf},
+{convertImage:mammoth.images.imgElement(function(image){
+return image.read(‘base64’).then(function(base64){
+return{src:‘data:’+image.contentType+’;base64,’+base64};
+});
+})}
+);
+loadRich(result.value,file.name);
+}catch(err){alert(’Could not read DOCX: ’+err.message)}
+return;
+}
+
+if(ext===‘pdf’){
+if(!window.pdfjsLib){alert(‘pdf.js not loaded — please check your connection.’);return}
+try{
+var buf2=await file.arrayBuffer();
+var pdf=await pdfjsLib.getDocument({data:buf2}).promise;
+var out=’’;
+for(var i=1;i<=pdf.numPages;i++){
+var page=await pdf.getPage(i);
+var content=await page.getTextContent();
+out+=content.items.map(function(item){return item.str}).join(’ ‘)+’\n\n’;
+}
+loadPlain(out.trim(),file.name);
+}catch(err){alert(’Could not read PDF: ’+err.message)}
+return;
+}
+
+/* Plain text formats */
+var reader=new FileReader();
+reader.onload=function(e){loadPlain(e.target.result,file.name)};
+reader.onerror=function(){alert(‘Could not read file.’)};
+reader.readAsText(file);
+}
+
+/* ─────────────────────────────────────────
+RETURN TO IMPORT
+───────────────────────────────────────── */
+function returnToImport(){
+store.clear();imgStore.clear();
+undoStack=[];docContent.innerHTML=’’;
+imageMode=false;
+importScreen.style.display=’’;
+editorScreen.style.display=‘none’;
+docNameEl.textContent=‘No document loaded’;
+document.getElementById(‘btn-import-new’).style.display=‘none’;
+document.getElementById(‘btn-import-new-m’).style.display=‘none’;
+updateStats();updateButtons();
+}
+
+/* ─────────────────────────────────────────
+EVENT WIRING
+───────────────────────────────────────── */
+document.getElementById(‘btn-browse’).addEventListener(‘click’,function(e){
+e.stopPropagation();document.getElementById(‘file-input’).click();
+});
+document.getElementById(‘file-input’).addEventListener(‘change’,function(){
+if(this.files.length){loadFile(this.files[0]);this.value=’’}
+});
+
+var dropCard=document.getElementById(‘drop-card’);
+dropCard.addEventListener(‘dragover’,function(e){e.preventDefault();dropCard.classList.add(‘drag-over’)});
+dropCard.addEventListener(‘dragleave’,function(){dropCard.classList.remove(‘drag-over’)});
+dropCard.addEventListener(‘drop’,function(e){
+e.preventDefault();dropCard.classList.remove(‘drag-over’);
+if(e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0]);
+});
+document.addEventListener(‘dragover’,function(e){e.preventDefault()});
+document.addEventListener(‘drop’,function(e){
+if(importScreen.style.display===‘none’&&e.dataTransfer.files.length){
+e.preventDefault();loadFile(e.dataTransfer.files[0]);
+}
+});
+
+document.getElementById(‘btn-load-paste’).addEventListener(‘click’,function(){
+var t=document.getElementById(‘paste-area’).value.trim();
+if(t){loadPlain(t,‘pasted-document.txt’);document.getElementById(‘paste-area’).value=’’}
+});
+
+/* Redact text */
+document.getElementById(‘btn-redact’).addEventListener(‘click’,redactSelection);
+document.getElementById(‘btn-redact-m’).addEventListener(‘click’,redactSelection);
+
+/* Image mode toggle */
+function toggleImg(){setImageMode(!imageMode)}
+document.getElementById(‘btn-img-mode’).addEventListener(‘click’,toggleImg);
+document.getElementById(‘btn-img-mode-m’).addEventListener(‘click’,toggleImg);
+document.getElementById(‘mb-text’).addEventListener(‘click’,function(){setImageMode(false)});
+document.getElementById(‘mb-image’).addEventListener(‘click’,function(){setImageMode(true)});
+
+/* Undo */
+document.getElementById(‘btn-undo’).addEventListener(‘click’,undo);
+document.getElementById(‘btn-undo-m’).addEventListener(‘click’,undo);
+
+/* Clear */
+document.getElementById(‘btn-clear’).addEventListener(‘click’,clearAll);
+
+/* Import new */
+document.getElementById(‘btn-import-new’).addEventListener(‘click’,returnToImport);
+document.getElementById(‘btn-import-new-m’).addEventListener(‘click’,returnToImport);
+
+/* Export open */
+document.getElementById(‘btn-export’).addEventListener(‘click’,function(){exportDialog.classList.add(‘open’)});
+document.getElementById(‘btn-export-m’).addEventListener(‘click’,function(){exportDialog.classList.add(‘open’)});
+
+/* Export format */
+[‘eo-blocks’,‘eo-label’,‘eo-blank’,‘eo-remove’].forEach(function(id){
+var mode=id.replace(‘eo-’,’’);
+var el=document.getElementById(id);
+el.addEventListener(‘click’,function(){showPreview(mode)});
+el.addEventListener(‘keydown’,function(e){
+if(e.key===‘Enter’||e.key===’ ’){e.preventDefault();showPreview(mode)}
+});
+});
+document.getElementById(‘btn-cancel-export’).addEventListener(‘click’,function(){exportDialog.classList.remove(‘open’)});
+exportDialog.addEventListener(‘click’,function(e){if(e.target===exportDialog)exportDialog.classList.remove(‘open’)});
+
+/* Preview */
+document.getElementById(‘btn-back-export’).addEventListener(‘click’,function(){
+previewDialog.classList.remove(‘open’);exportDialog.classList.add(‘open’);
+});
+document.getElementById(‘btn-confirm-export’).addEventListener(‘click’,confirmExport);
+previewDialog.addEventListener(‘click’,function(e){if(e.target===previewDialog)previewDialog.classList.remove(‘open’)});
+
+/* Keyboard */
+document.addEventListener(‘keydown’,function(e){
+var tag=document.activeElement.tagName;
+if(tag===‘TEXTAREA’||tag===‘INPUT’)return;
+if((e.ctrlKey||e.metaKey)&&e.key===‘z’){e.preventDefault();undo();return}
+if(e.key===‘Escape’){
+exportDialog.classList.remove(‘open’);
+previewDialog.classList.remove(‘open’);
+hideFloat();
+if(imageMode)setImageMode(false);
+return;
+}
+if(e.key===‘r’&&!e.ctrlKey&&!e.metaKey&&!imageMode){
+var sel=window.getSelection();
+if(sel&&!sel.isCollapsed){e.preventDefault();redactSelection()}
+}
+});
+
+/* Init */
+updateStats();
+updateButtons();
 })();
+
 </script>
 </body>
 </html>
